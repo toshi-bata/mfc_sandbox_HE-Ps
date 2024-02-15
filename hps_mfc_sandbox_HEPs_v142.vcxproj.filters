@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\operators">
+      <UniqueIdentifier>{16b89bfa-45a1-4efc-b986-275cb05b4190}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\operators">
+      <UniqueIdentifier>{f4db0258-ff6a-4ca5-8eed-8607256fc916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Parasolid">
+      <UniqueIdentifier>{7f2a46f7-6f1f-4615-a625-4dedf712a57c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Parasolid">
+      <UniqueIdentifier>{884624ce-01ba-46a3-8a9d-54bb2dacd9c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Exchange">
+      <UniqueIdentifier>{91922cf6-9422-4c95-b625-a8915199f2d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Exchange\visitor">
+      <UniqueIdentifier>{971ea13d-cbd7-45ab-ba12-7d845c379b43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Exchange">
+      <UniqueIdentifier>{a0dd0831-9f38-4770-92da-fb39f72d8ac5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Exchange\visitor">
+      <UniqueIdentifier>{44cbe099-55b8-47dc-b735-d711ea9b7419}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dlg">
+      <UniqueIdentifier>{77fd31d4-5b52-4636-998d-a84ca5d710e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dlg">
+      <UniqueIdentifier>{9c018c62-ec31-45a1-b984-dc248c6beb5d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\buttons.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ribbon.mfcribbon-ms">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ts3d.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Toolbar.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Toolbar256.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\main.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\OperatorsLarge.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\OperatorsSmall.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\filelarge.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\filesmall.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\writelarge.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\writesmall.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\LargeIcon.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\SmallIcon.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\hps_mfc_sandbox.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CHPSFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CHPSConfigurationPane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CHPSDoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CHPSView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CHPSApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CProgressDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CHPSSegmentBrowserPane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CHPSPropertiesPane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CHPSModelBrowserPane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SandboxHighlightOp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HPSExchangeProgressDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FloatEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIntEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UIntRangeEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitFloatEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PsProcess.h">
+      <Filter>Header Files\Parasolid</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\A3DVector.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\BrepTraverse.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\CascadedAttributeConnector.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\Connector.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\MarkupTessConnector.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\MarkupTraverse.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\Matrix.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\TessConnector.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\TransfoConnector.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\TreeTraverse.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\ViewTraverse.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\VisitorBrep.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\VisitorCascadedAttribute.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\VisitorContainer.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\Visitors.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\VisitorTessellation.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\VisitorTransfo.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="visitor\VisitorTree.h">
+      <Filter>Header Files\Exchange\visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="BooleanOp.h">
+      <Filter>Header Files\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="ExPsProcess.h">
+      <Filter>Header Files\Exchange</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateCompVisitor.h">
+      <Filter>Header Files\Exchange</Filter>
+    </ClInclude>
+    <ClInclude Include="ExUtilities.h">
+      <Filter>Header Files\Exchange</Filter>
+    </ClInclude>
+    <ClInclude Include="ps_utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ClickEntitiesCmdOp.h">
+      <Filter>Header Files\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="BlendDlg.h">
+      <Filter>Header Files\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateSolidDlg.h">
+      <Filter>Header Files\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteFaceDlg.h">
+      <Filter>Header Files\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="HollowDlg.h">
+      <Filter>Header Files\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="FeatureRecognitionDlg.h">
+      <Filter>Header Files\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="PsComponentMapper.h">
+      <Filter>Header Files\Parasolid</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteCompDlg.h">
+      <Filter>Header Files\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="BooleanDlg.h">
+      <Filter>Header Files\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="MirrorBodyDlg.h">
+      <Filter>Header Files\Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="MirrorBodyOp.h">
+      <Filter>Header Files\operators</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPSFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPSConfigurationPane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPSDoc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPSView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPSApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CProgressDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPSSegmentBrowserPane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPSPropertiesPane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CHPSModelBrowserPane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SandboxHighlightOp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HPSExchangeProgressDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FloatEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIntEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIntRangeEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitFloatEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PsProcess.cpp">
+      <Filter>Source Files\Parasolid</Filter>
+    </ClCompile>
+    <ClCompile Include="visitor\BrepTraverse.cpp">
+      <Filter>Source Files\Exchange\visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="visitor\CascadedAttributeConnector.cpp">
+      <Filter>Source Files\Exchange\visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="visitor\MarkupTessConnector.cpp">
+      <Filter>Source Files\Exchange\visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="visitor\MarkupTraverse.cpp">
+      <Filter>Source Files\Exchange\visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="visitor\Matrix.cpp">
+      <Filter>Source Files\Exchange\visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="visitor\TessConnector.cpp">
+      <Filter>Source Files\Exchange\visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="visitor\TransfoConnector.cpp">
+      <Filter>Source Files\Exchange\visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="visitor\TreeTraverse.cpp">
+      <Filter>Source Files\Exchange\visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="visitor\ViewTraverse.cpp">
+      <Filter>Source Files\Exchange\visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="visitor\VisitorCascadedAttribute.cpp">
+      <Filter>Source Files\Exchange\visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="visitor\VisitorContainer.cpp">
+      <Filter>Source Files\Exchange\visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="visitor\VisitorTessellation.cpp">
+      <Filter>Source Files\Exchange\visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="visitor\VisitorTransfo.cpp">
+      <Filter>Source Files\Exchange\visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="visitor\VisitorTree.cpp">
+      <Filter>Source Files\Exchange\visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="BooleanOp.cpp">
+      <Filter>Source Files\operators</Filter>
+    </ClCompile>
+    <ClCompile Include="ExPsProcess.cpp">
+      <Filter>Source Files\Exchange</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateCompVisitor.cpp">
+      <Filter>Source Files\Exchange</Filter>
+    </ClCompile>
+    <ClCompile Include="ExUtilities.cpp">
+      <Filter>Source Files\Exchange</Filter>
+    </ClCompile>
+    <ClCompile Include="ClickEntitiesCmdOp.cpp">
+      <Filter>Source Files\operators</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendDlg.cpp">
+      <Filter>Source Files\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateSolidDlg.cpp">
+      <Filter>Source Files\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteFaceDlg.cpp">
+      <Filter>Source Files\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="HollowDlg.cpp">
+      <Filter>Source Files\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="FeatureRecognitionDlg.cpp">
+      <Filter>Source Files\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="PsComponentMapper.cpp">
+      <Filter>Source Files\Parasolid</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteCompDlg.cpp">
+      <Filter>Source Files\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="BooleanDlg.cpp">
+      <Filter>Source Files\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="MirrorBodyDlg.cpp">
+      <Filter>Source Files\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="MirrorBodyOp.cpp">
+      <Filter>Source Files\operators</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="hps_mfc_sandbox.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\hps_mfc_sandbox_Doc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\toolbar1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\SegmentBrowserIcons.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cadballoon.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cadcirclecenter.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cadFastener.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cadleaderarrow.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cadlinewelding.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cadlocator.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cadmeasurementpoint.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cadrefer.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cadrough.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cadspotwelding.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cadtable.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cadtarge.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cadtoler.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\cadview.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dim_angle.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dim_coordinate.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dim_diameter.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dim_distance.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dim_length.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dim_radius.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dir_geom.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dir_mark.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dir_product.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dir_product2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\il_class.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_arc.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_axis.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_compcurve.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_curv.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_direction.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_line.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_plan.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_poin.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_points_cloud.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_solid.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\markup.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_surf.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_unkn.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\pmiview_productview.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_drawing_model.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_drawing_sheet.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_drawing_view.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_drawing_view_back.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_drawing_view_background.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_drawing_view_bottom.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_drawing_view_detail.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_drawing_view_front.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_drawing_view_iso.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_drawing_view_left.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_drawing_view_right.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_drawing_view_section.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\img_drawing_view_top.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
