@@ -67,7 +67,9 @@ BEGIN_MESSAGE_MAP(CreateSolidDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_RADIO_BLOCK, &CreateSolidDlg::OnBnClickedRadioBlock)
 	ON_BN_CLICKED(IDC_RADIO_CYLINDER, &CreateSolidDlg::OnBnClickedRadioCylinder)
 	ON_BN_CLICKED(IDC_RADIO_SPRING, &CreateSolidDlg::OnBnClickedRadioSpring)
+	ON_BN_CLICKED(IDC_RADIO_SPHERE, &CreateSolidDlg::OnBnClickedRadioSphere)
 	ON_CBN_SELCHANGE(IDC_COMBO_SOLID_TYPE, &CreateSolidDlg::OnCbnSelchangeComboSolidType)
+	ON_BN_CLICKED(IDC_RADIO_CONE, &CreateSolidDlg::OnBnClickedRadioCone)
 END_MESSAGE_MAP()
 
 
@@ -75,6 +77,9 @@ void CreateSolidDlg::updateUI()
 {
 	UpdateData(true);
 
+	((CStatic*)GetDlgItem(IDC_STATIC_YL))->SetWindowTextW(_T("Y"));
+	((CStatic*)GetDlgItem(IDC_STATIC_YL))->ShowWindow(true);
+	((CEdit*)GetDlgItem(IDC_EDIT_YL))->ShowWindow(true);
 	((CStatic*)GetDlgItem(IDC_STATIC_ZL))->SetWindowTextW(_T("Z"));
 	((CStatic*)GetDlgItem(IDC_STATIC_ZL))->ShowWindow(true);
 	((CEdit*)GetDlgItem(IDC_EDIT_ZL))->ShowWindow(true);
@@ -104,6 +109,27 @@ void CreateSolidDlg::updateUI()
 		m_dEditS2 = m_dCyl_H;
 		break;
 	case 2:
+		SetWindowText(_T("Create Cone"));
+		((CStatic*)GetDlgItem(IDC_STATIC_XL))->SetWindowTextW(_T("R"));
+		((CStatic*)GetDlgItem(IDC_STATIC_YL))->SetWindowTextW(_T("H"));
+		((CStatic*)GetDlgItem(IDC_STATIC_ZL))->SetWindowTextW(_T("A"));
+
+		m_dEditS1 = m_dCyl_R;
+		m_dEditS2 = m_dCyl_H;
+		m_dEditS3 = m_dCone_A;
+		break;
+	case 3:
+		SetWindowText(_T("Create Sphere"));
+		((CStatic*)GetDlgItem(IDC_STATIC_XL))->SetWindowTextW(_T("R"));
+		((CStatic*)GetDlgItem(IDC_STATIC_YL))->ShowWindow(false);
+		((CEdit*)GetDlgItem(IDC_EDIT_YL))->ShowWindow(false);
+		((CStatic*)GetDlgItem(IDC_STATIC_ZL))->ShowWindow(false);
+		((CEdit*)GetDlgItem(IDC_EDIT_ZL))->ShowWindow(false);
+
+		m_dEditS1 = m_dCyl_R;
+
+		break;
+	case 4:
 		SetWindowText(_T("Create Spring"));
 		((CStatic*)GetDlgItem(IDC_STATIC_XL))->SetWindowTextW(_T("D"));
 		((CStatic*)GetDlgItem(IDC_STATIC_YL))->SetWindowTextW(_T("L"));
@@ -117,6 +143,7 @@ void CreateSolidDlg::updateUI()
 		m_dEditS3 = m_dSprWireD;
 
 		break;
+
 	default:
 		break;
 	}
@@ -137,7 +164,19 @@ void CreateSolidDlg::OnBnClickedRadioCylinder()
 }
 
 
+void CreateSolidDlg::OnBnClickedRadioCone()
+{
+	updateUI();
+}
+
+
 void CreateSolidDlg::OnBnClickedRadioSpring()
+{
+	updateUI();
+}
+
+
+void CreateSolidDlg::OnBnClickedRadioSphere()
 {
 	updateUI();
 }

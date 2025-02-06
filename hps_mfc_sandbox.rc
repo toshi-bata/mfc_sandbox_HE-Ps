@@ -21,7 +21,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// âpåÍ resources
+// ÔøΩpÔøΩÔøΩ resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
@@ -91,12 +91,12 @@ BEGIN
     0
 END
 
-#endif    // âpåÍ resources
+#endif    // ÔøΩpÔøΩÔøΩ resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// âpåÍ (ïƒçë) resources
+// ÔøΩpÔøΩÔøΩ (ÔøΩƒçÔøΩ) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -169,7 +169,9 @@ BEGIN
     GROUPBOX        "Shape",IDC_STATIC,6,6,282,30
     CONTROL         "Block",IDC_RADIO_BLOCK,"Button",BS_AUTORADIOBUTTON | WS_GROUP,12,18,32,10
     CONTROL         "Cylinder",IDC_RADIO_CYLINDER,"Button",BS_AUTORADIOBUTTON,54,18,42,10
-    CONTROL         "Spring",IDC_RADIO_SPRING,"Button",BS_AUTORADIOBUTTON,108,18,36,10
+    CONTROL         "Cone",IDC_RADIO_CONE,"Button",BS_AUTORADIOBUTTON,108,18,32,10
+    CONTROL         "Sphere",IDC_RADIO_SPHERE,"Button",BS_AUTORADIOBUTTON,150,18,38,10
+    CONTROL         "Spring",IDC_RADIO_SPRING,"Button",BS_AUTORADIOBUTTON,198,18,36,10
     GROUPBOX        "Size",IDC_STATIC,6,42,108,84
     LTEXT           "XL",IDC_STATIC_XL,12,54,18,8
     EDITTEXT        IDC_EDIT_XL,60,54,48,14,ES_RIGHT | ES_AUTOHSCROLL
@@ -931,7 +933,7 @@ BEGIN
     ID_OPERATORS_ORBIT      "Allow orbitting around origin\nOrbit"
 END
 
-#endif    // âpåÍ (ïƒçë) resources
+#endif    // ÔøΩpÔøΩÔøΩ (ÔøΩƒçÔøΩ) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

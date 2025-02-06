@@ -1184,6 +1184,100 @@ void CHPSView::OnUserCode1()
 	_displayResourceMonitor = !_displayResourceMonitor;
 	_canvas.GetWindowKey().GetDebuggingControl().SetResourceMonitor(_displayResourceMonitor);
 
+	/*
+	HPS::CADModel cadModel = GetDocument()->GetCADModel();
+	if (HPS::Type::None == cadModel.Type())
+		return;
+
+	CString filter =
+		_T("All CAD Files (*.3ds, *.3dxml, *.sat, *.sab, *_pd, *.model, *.dlv, *.exp, *.session, *.CATPart, *.CATProduct, *.CATShape, *.CATDrawing")
+		_T(", *.cgr, *.dae, *.prt, *.prt.*, *.neu, *.neu.*, *.asm, *.asm.*, *.xas, *.xpr, *.arc, *.unv, *.mf1, *.prt, *.pkg, *.ifc, *.ifczip, *.igs, *.iges, *.ipt, *.iam")
+		_T(", *.jt, *.kmz, *.prt, *.pdf, *.prc, *.x_t, *.xmt, *.x_b, *.xmt_txt, *.3dm, *.stp, *.step, *.stpz, *.stp.z, *.stl, *.par, *.asm, *.pwd, *.psm")
+		_T(", *.sldprt, *.sldasm, *.sldfpp, *.asm, *.u3d, *.vda, *.wrl, *.vml, *.obj, *.xv3, *.xv0)|")
+		_T("*.3ds;*.3dxml;*.sat;*.sab;*_pd;*.model;*.dlv;*.exp;*.session;*.catpart;*.catproduct;*.catshape;*.catdrawing")
+		_T(";*.cgr;*.dae;*.prt;*.prt.*;*.neu;*.neu.*;*.asm;*.asm.*;*.xas;*.xpr;*.arc;*.unv;*.mf1;*.prt;*.pkg;*.ifc;*.ifczip;*.igs;*.iges;*.ipt;*.iam")
+		_T(";*.jt;*.kmz;*.prt;*.pdf;*.prc;*.x_t;*.xmt;*.x_b;*.xmt_txt;*.3dm;*.stp;*.step;*.stpz;*.stp.z;*.stl;*.par;*.asm;*.pwd;*.psm")
+		_T(";*.sldprt;*.sldasm;*.sldfpp;*.asm;*.u3d;*.vda;*.wrl;*.vml;*.obj;*.xv3;*.xv0;*.hsf|")
+		_T("3D Studio Files (*.3ds)|*.3ds|")
+		_T("3DXML Files (*.3dxml)|*.3dxml|")
+		_T("ACIS SAT Files (*.sat, *.sab)|*.sat;*.sab|")
+		_T("CADDS Files (*_pd)|*_pd|")
+		_T("CATIA V4 Files (*.model, *.dlv, *.exp, *.session)|*.model;*.dlv;*.exp;*.session|")
+		_T("CATIA V5 Files (*.CATPart, *.CATProduct, *.CATShape, *.CATDrawing)|*.catpart;*.catproduct;*.catshape;*.catdrawing|")
+		_T("CGR Files (*.cgr)|*.cgr|")
+		_T("Collada Files (*.dae)|*.dae|")
+		_T("Creo (ProE) Files (*.prt, *.prt.*, *.neu, *.neu.*, *.asm, *.asm.*, *.xas, *.xpr)|*.prt;*.prt.*;*.neu;*.neu.*;*.asm;*.asm.*;*.xas;*.xpr|")
+		_T("I-DEAS Files (*.arc, *.unv, *.mf1, *.prt, *.pkg)|*.arc;*.unv;*.mf1;*.prt;*.pkg|")
+		_T("IFC Files (*.ifc, *.ifczip)|*.ifc;*.ifczip|")
+		_T("IGES Files (*.igs, *.iges)|*.igs;*.iges|")
+		_T("Inventor Files (*.ipt, *.iam)|*.ipt;*.iam|")
+		_T("JT Files (*.jt)|*.jt|")
+		_T("KMZ Files (*.kmz)|*.kmz|")
+		_T("NX (Unigraphics) Files (*.prt)|*.prt|")
+		_T("PDF Files (*.pdf)|*.pdf|")
+		_T("PRC Files (*.prc)|*.prc|")
+		_T("Parasolid Files (*.x_t, *.xmt, *.x_b, *.xmt_txt)|*.x_t;*.xmt;*.x_b;*.xmt_txt|")
+		_T("Rhino Files (*.3dm)|*.3dm|")
+		_T("STEP Files (*.stp, *.step, *.stpz, *.stp.z)|*.stp;*.step;*.stpz;*.stp.z|")
+		_T("STL Files (*.stl)|*.stl|")
+		_T("SolidEdge Files (*.par, *.asm, *.pwd, *.psm)|*.par;*.asm;*.pwd;*.psm|")
+		_T("SolidWorks Files (*.sldprt, *.sldasm, *.sldfpp, *.asm)|*.sldprt;*.sldasm;*.sldfpp;*.asm|")
+		_T("Universal 3D Files (*.u3d)|*.u3d|")
+		_T("VDA Files (*.vda)|*.vda|")
+		_T("VRML Files (*.wrl, *.vrml)|*.wrl;*.vrml|")
+		_T("XVL Files (*.xv3, *.xv0)|*.xv0;*.xv3|");
+
+	CFileDialog dlg(TRUE, _T(".*"), NULL, OFN_HIDEREADONLY, filter, NULL);
+	if (dlg.DoModal() != IDOK)
+		return;
+
+	CString lpszPathName = dlg.GetPathName();
+	HPS::UTF8 filename(lpszPathName);
+
+	HPS::IOResult status = HPS::IOResult::Failure;
+	HPS::Exchange::ImportNotifier notifier;
+
+	try
+	{
+		HPS::Exchange::ImportOptionsKit importOptKit = HPS::Exchange::ImportOptionsKit::GetDefault();
+
+		//HPS::ComponentPath topLevelPath(HPS::ComponentArray(1, GetDocument()->GetCADModel()));
+		
+		HPS::Exchange::CADModel exCadModel = cadModel;
+		HPS::ComponentArray compArr = exCadModel.GetSubcomponents();
+		HPS::Component parentComp = compArr[0];
+		HPS::UTF8 name = parentComp.GetName();
+
+		HPS::ComponentArray compPathArr;
+		compPathArr.push_back(parentComp);
+		compPathArr.push_back(exCadModel);
+
+		importOptKit.SetLocation(compPathArr);
+
+		notifier = HPS::Exchange::File::Import(filename, importOptKit);
+
+		//CProgressDialogAdd* addDlg = new CProgressDialogAdd();
+		//addDlg->Create(IDD_PROGRESS_ADD);
+		//addDlg->ShowWindow(SW_SHOW);
+
+		notifier.Wait();
+
+		//addDlg->DestroyWindow();
+
+		status = notifier.Status();
+
+		compArr = parentComp.GetSubcomponents();
+
+		HPS::Component lastComp = compArr[compArr.size() - 1];
+
+		HPS::UTF8 name2 = lastComp.GetName();
+
+	}
+	catch (HPS::IOException const& ex)
+	{
+		status = ex.result;
+	}
+	*/
 	GetCanvas().Update();
 }
 

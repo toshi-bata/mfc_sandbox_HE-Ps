@@ -21,6 +21,7 @@ private:
 
 	double m_dCyl_R = 50;
 	double m_dCyl_H = 100;
+	double m_dCone_A = 10;
 
 	double m_dSprD = 10;
 	double m_dSprH = 50;
@@ -47,6 +48,8 @@ public:
 	int m_iShape;
 	afx_msg void OnBnClickedRadioBlock();
 	afx_msg void OnBnClickedRadioCylinder();
+	afx_msg void OnBnClickedRadioCone();
+	afx_msg void OnBnClickedRadioSphere();
 	afx_msg void OnBnClickedRadioSpring();
 	afx_msg void OnCbnSelchangeComboSolidType();
 	CComboBox m_comboType;

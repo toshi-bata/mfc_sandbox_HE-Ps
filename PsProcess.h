@@ -25,6 +25,8 @@ enum SolidShape
 {
 	BLOCK,
 	CYLINDER,
+	CONE,
+	SPHERE,
 	SPRING
 };
 
@@ -49,6 +51,8 @@ private:
 	void setBasisSet(const double* in_offset, const double* in_dir, PK_AXIS2_sf_s& basis_set);
 	bool createBlock(const double* in_size, const double* in_offset, const double* in_dir, PK_BODY_t& body);
 	bool createCylinder(const double rad, const double height, const double* in_offset, const double* in_dir, PK_BODY_t& body);
+	bool createCone(const double rad, const double height, const double in_angle, const double* in_offset, const double* in_dir, PK_BODY_t& body);
+	bool createSphere(const double rad, const double* in_offset, const double* in_dir, PK_BODY_t& body);
 	bool createSpring(const double in_outDia, const double in_L, const double in_wireDia, const double in_hook_ang, PK_BODY_t& body);
 	void setPartName(const PK_PART_t in_part, const char* in_value);
 	void setPartColor(const PK_PART_t in_part, const double* in_color);

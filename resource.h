@@ -182,6 +182,9 @@
 #define IDC_CHECK_CHAMFER_FLIP          1067
 #define IDC_STATIC_BLEND_C2             1068
 #define IDC_STATIC_BLEND_R              1069
+#define IDC_RADIO_SPHERE                1070
+#define IDC_EDIT_CB                     1073
+#define IDC_RADIO_CONE                  1074
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_OPERATORS_SELECT_POINT       32771
 #define ID_OPERATORS_SELECT_AREA        32772
@@ -254,9 +257,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        433
-#define _APS_NEXT_COMMAND_VALUE         32847
-#define _APS_NEXT_CONTROL_VALUE         1070
+#define _APS_NEXT_RESOURCE_VALUE        435
+#define _APS_NEXT_COMMAND_VALUE         32848
+#define _APS_NEXT_CONTROL_VALUE         1078
 #define _APS_NEXT_SYMED_VALUE           312
 #endif
 #endif

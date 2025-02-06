@@ -464,6 +464,36 @@ bool PsProcess::createCylinder(const double rad, const double height, const doub
 	return true;
 }
 
+bool PsProcess::createCone(const double rad, const double height, const double in_angle, const double* in_offset, const double* in_dir, PK_BODY_t& body)
+{
+	PK_ERROR_code_t error_code;
+
+	PK_AXIS2_sf_s basis_set;
+	setBasisSet(in_offset, in_dir, basis_set);
+
+	error_code = PK_BODY_create_solid_cone(rad / m_dUnit, height / m_dUnit, M_PI * (in_angle / 180.0), &basis_set, &body);
+
+	if (PK_ERROR_no_errors != error_code)
+		return false;
+
+	return true;
+}
+
+bool PsProcess::createSphere(const double rad, const double* in_offset, const double* in_dir, PK_BODY_t& body)
+{
+	PK_ERROR_code_t error_code;
+
+	PK_AXIS2_sf_s basis_set;
+	setBasisSet(in_offset, in_dir, basis_set);
+
+	error_code = PK_BODY_create_solid_sphere(rad / m_dUnit, &basis_set, &body);
+
+	if (PK_ERROR_no_errors != error_code)
+		return false;
+
+	return true;
+}
+
 bool PsProcess::createSpring(const double in_outDia, const double in_L, const double in_wireDia, const double in_hook_ang, PK_BODY_t& body)
 {
 	PK_ERROR_code_t error_code;
@@ -825,6 +855,18 @@ bool PsProcess::CreateSolid(const SolidShape solidShape, const double* in_size, 
 		double rad = in_size[0];
 		double height = in_size[1];
 		bRet = createCylinder(rad, height, in_offset, in_dir, body);
+	} break;
+	case CONE:
+	{
+		double rad = in_size[0];
+		double height = in_size[1];
+		double angle = in_size[2];
+		bRet = createCone(rad, height, angle, in_offset, in_dir, body);
+	} break;
+	case SPHERE:
+	{
+		double rad = in_size[0];
+		bRet = createSphere(rad, in_offset, in_dir, body);
 	} break;
 	case SPRING:
 	{

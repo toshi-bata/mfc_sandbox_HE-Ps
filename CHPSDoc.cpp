@@ -84,7 +84,7 @@ BOOL CHPSDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 	const char *visualizeExtensions[] = {
 		"hsf",
-		"stl",
+		//"stl",
 		"obj",
 		"pts",
 		"ptx",
@@ -109,8 +109,8 @@ BOOL CHPSDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	bool success = false;
 	if (!_stricmp(ext, "hsf"))
 		success = ImportHSFFile(lpszPathName);
-	else if (!_stricmp(ext, "stl"))
-		success = ImportSTLFile(lpszPathName);
+	//else if (!_stricmp(ext, "stl"))
+	//	success = ImportSTLFile(lpszPathName);
 	else if (!_stricmp(ext, "obj"))
 		success = ImportOBJFile(lpszPathName);
 	else if (!_stricmp(ext, "ptx") || !_stricmp(ext, "pts") || !_stricmp(ext, "xyz"))
