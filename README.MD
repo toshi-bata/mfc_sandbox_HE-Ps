@@ -1,6 +1,6 @@
 # HOOPS Visualize - Exchange & Parasolid integration samples
-This sample illustrates how to implement HOOPS Exchange and Siemens Parasolid into HOOPS Visualize HPS sprockets.
-This sample project was developed for the following article of Tech Soft 3D Forum:
+This sample illustrates how to implement HOOPS Exchange and Siemens Parasolid into HOOPS Visualize HPS sprockets.<br>
+This sample project was developed for the following article of Tech Soft 3D Forum:<br>
 https://forum.techsoft3d.com/t/hoops-visualize-exchange-parasolid-integration-samples/2004
 
 ## Environment
