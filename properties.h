@@ -1644,7 +1644,7 @@ namespace Property
 			CString const & name = _T("Type"))
 			: BaseEnumProperty(name, enumValue)
 		{
-			EnumTypeArray enumValues(115); HPS::UTF8Array enumStrings(115);
+			EnumTypeArray enumValues(116); HPS::UTF8Array enumStrings(116);
 			enumValues[0] = HPS::AttributeLock::Type::Everything; enumStrings[0] = "Everything";
 			enumValues[1] = HPS::AttributeLock::Type::Visibility; enumStrings[1] = "Visibility";
 			enumValues[2] = HPS::AttributeLock::Type::VisibilityCuttingSections; enumStrings[2] = "VisibilityCuttingSections";
@@ -1760,6 +1760,7 @@ namespace Property
 			enumValues[112] = HPS::AttributeLock::Type::MaterialCutFaceBump; enumStrings[112] = "MaterialCutFaceBump";
 			enumValues[113] = HPS::AttributeLock::Type::MaterialCutFaceGloss; enumStrings[113] = "MaterialCutFaceGloss";
 			enumValues[114] = HPS::AttributeLock::Type::Camera; enumStrings[114] = "Camera";
+			enumValues[115] = HPS::AttributeLock::Type::Selectability; enumStrings[115] = "Selectability";
 			InitializeEnumValues(enumValues, enumStrings);
 		}
 	};
@@ -5950,6 +5951,830 @@ namespace Property
 		bool _region_window_space;
 	};
 
+	class TextKitCharacterAttributesProperty : public BaseProperty
+	{
+	public:
+		TextKitCharacterAttributesProperty(
+			HPS::TextKit const & kit)
+			: BaseProperty(_T("CharacterAttributes"))
+		{
+			HPS::CharacterAttributeKitArray character_attributes;
+			kit.ShowCharacterAttributes(character_attributes);
+			AddSubItem(new ImmutableSizeTProperty(_T("Count"), character_attributes.size()));
+		}
+	};
+
+	class TextKitPositionProperty : public BaseProperty
+	{
+	public:
+		TextKitPositionProperty(
+			HPS::TextKit& kit)
+			: BaseProperty(_T("Position"))
+			, kit(kit)
+		{
+			this->kit.ShowPosition(_position);
+			AddSubItem(new PointProperty(_T("Position"), _position));
+		}
+
+		void OnChildChanged() override
+		{
+			kit.SetPosition(_position);
+			BaseProperty::OnChildChanged();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		HPS::Point _position;
+	};
+
+	class TextKitTextProperty : public BaseProperty
+	{
+	public:
+		TextKitTextProperty(
+			HPS::TextKit& kit)
+			: BaseProperty(_T("Text"))
+			, kit(kit)
+		{
+			this->kit.ShowText(_string);
+			AddSubItem(new UTF8Property(_T("String"), _string));
+		}
+
+		void OnChildChanged() override
+		{
+			kit.SetText(_string);
+			BaseProperty::OnChildChanged();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		HPS::UTF8 _string;
+	};
+
+	class TextKitAlignmentProperty : public SettableProperty
+	{
+	public:
+		TextKitAlignmentProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Alignment"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowAlignment(_alignment, _reference_frame, _justification);
+			if (!isSet)
+			{
+				_alignment = HPS::Text::Alignment::BottomLeft;
+				_reference_frame = HPS::Text::ReferenceFrame::WorldAligned;
+				_justification = HPS::Text::Justification::Left;
+			}
+			AddSubItem(new TextAlignmentProperty(_alignment));
+			AddSubItem(new TextReferenceFrameProperty(_reference_frame));
+			AddSubItem(new TextJustificationProperty(_justification));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetAlignment(_alignment, _reference_frame, _justification);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetAlignment();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		HPS::Text::Alignment _alignment;
+		HPS::Text::ReferenceFrame _reference_frame;
+		HPS::Text::Justification _justification;
+	};
+
+	class TextKitBoldProperty : public SettableProperty
+	{
+	public:
+		TextKitBoldProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Bold"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowBold(_state);
+			if (!isSet)
+			{
+				_state = true;
+			}
+			AddSubItem(new BoolProperty(_T("State"), _state));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetBold(_state);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetBold();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		bool _state;
+	};
+
+	class TextKitItalicProperty : public SettableProperty
+	{
+	public:
+		TextKitItalicProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Italic"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowItalic(_state);
+			if (!isSet)
+			{
+				_state = true;
+			}
+			AddSubItem(new BoolProperty(_T("State"), _state));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetItalic(_state);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetItalic();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		bool _state;
+	};
+
+	class TextKitOverlineProperty : public SettableProperty
+	{
+	public:
+		TextKitOverlineProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Overline"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowOverline(_state);
+			if (!isSet)
+			{
+				_state = true;
+			}
+			AddSubItem(new BoolProperty(_T("State"), _state));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetOverline(_state);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetOverline();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		bool _state;
+	};
+
+	class TextKitStrikethroughProperty : public SettableProperty
+	{
+	public:
+		TextKitStrikethroughProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Strikethrough"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowStrikethrough(_state);
+			if (!isSet)
+			{
+				_state = true;
+			}
+			AddSubItem(new BoolProperty(_T("State"), _state));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetStrikethrough(_state);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetStrikethrough();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		bool _state;
+	};
+
+	class TextKitUnderlineProperty : public SettableProperty
+	{
+	public:
+		TextKitUnderlineProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Underline"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowUnderline(_state);
+			if (!isSet)
+			{
+				_state = true;
+			}
+			AddSubItem(new BoolProperty(_T("State"), _state));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetUnderline(_state);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetUnderline();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		bool _state;
+	};
+
+	class TextKitSlantProperty : public SettableProperty
+	{
+	public:
+		TextKitSlantProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Slant"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowSlant(_angle);
+			if (!isSet)
+			{
+				_angle = 0.0f;
+			}
+			AddSubItem(new FloatProperty(_T("Angle"), _angle));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetSlant(_angle);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetSlant();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		float _angle;
+	};
+
+	class TextKitLineSpacingProperty : public SettableProperty
+	{
+	public:
+		TextKitLineSpacingProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("LineSpacing"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowLineSpacing(_multiplier);
+			if (!isSet)
+			{
+				_multiplier = 0.0f;
+			}
+			AddSubItem(new FloatProperty(_T("Multiplier"), _multiplier));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetLineSpacing(_multiplier);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetLineSpacing();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		float _multiplier;
+	};
+
+	class TextKitExtraSpaceProperty : public SettableProperty
+	{
+	public:
+		TextKitExtraSpaceProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("ExtraSpace"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowExtraSpace(_state, _size, _units);
+			if (!isSet)
+			{
+				_state = true;
+				_size = 0.0f;
+				_units = HPS::Text::SizeUnits::Points;
+			}
+			auto boolProperty = new ConditionalBoolProperty(_T("State"), _state);
+			AddSubItem(boolProperty);
+			AddSubItem(new FloatProperty(_T("Size"), _size));
+			AddSubItem(new TextSizeUnitsProperty(_units));
+			boolProperty->EnableValidProperties();
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetExtraSpace(_state, _size, _units);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetExtraSpace();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		bool _state;
+		float _size;
+		HPS::Text::SizeUnits _units;
+	};
+
+	class TextKitGreekingProperty : public SettableProperty
+	{
+	public:
+		TextKitGreekingProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Greeking"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowGreeking(_state, _size, _units, _mode);
+			if (!isSet)
+			{
+				_state = true;
+				_size = 0.0f;
+				_units = HPS::Text::GreekingUnits::Pixels;
+				_mode = HPS::Text::GreekingMode::Lines;
+			}
+			auto boolProperty = new ConditionalBoolProperty(_T("State"), _state);
+			AddSubItem(boolProperty);
+			AddSubItem(new FloatProperty(_T("Size"), _size));
+			AddSubItem(new TextGreekingUnitsProperty(_units));
+			AddSubItem(new TextGreekingModeProperty(_mode));
+			boolProperty->EnableValidProperties();
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetGreeking(_state, _size, _units, _mode);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetGreeking();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		bool _state;
+		float _size;
+		HPS::Text::GreekingUnits _units;
+		HPS::Text::GreekingMode _mode;
+	};
+
+	class TextKitSizeToleranceProperty : public SettableProperty
+	{
+	public:
+		TextKitSizeToleranceProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("SizeTolerance"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowSizeTolerance(_state, _size, _units);
+			if (!isSet)
+			{
+				_state = true;
+				_size = 0.0f;
+				_units = HPS::Text::SizeToleranceUnits::Percent;
+			}
+			auto boolProperty = new ConditionalBoolProperty(_T("State"), _state);
+			AddSubItem(boolProperty);
+			AddSubItem(new FloatProperty(_T("Size"), _size));
+			AddSubItem(new TextSizeToleranceUnitsProperty(_units));
+			boolProperty->EnableValidProperties();
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetSizeTolerance(_state, _size, _units);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetSizeTolerance();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		bool _state;
+		float _size;
+		HPS::Text::SizeToleranceUnits _units;
+	};
+
+	class TextKitSizeProperty : public SettableProperty
+	{
+	public:
+		TextKitSizeProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Size"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowSize(_size, _units);
+			if (!isSet)
+			{
+				_size = 0.0f;
+				_units = HPS::Text::SizeUnits::Points;
+			}
+			AddSubItem(new FloatProperty(_T("Size"), _size));
+			AddSubItem(new TextSizeUnitsProperty(_units));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetSize(_size, _units);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetSize();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		float _size;
+		HPS::Text::SizeUnits _units;
+	};
+
+	class TextKitFontProperty : public SettableProperty
+	{
+	public:
+		TextKitFontProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Font"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowFont(_name);
+			if (!isSet)
+			{
+				_name = "name";
+			}
+			AddSubItem(new UTF8Property(_T("Name"), _name));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetFont(_name);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetFont();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		HPS::UTF8 _name;
+	};
+
+	class TextKitTransformProperty : public SettableProperty
+	{
+	public:
+		TextKitTransformProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Transform"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowTransform(_trans);
+			if (!isSet)
+			{
+				_trans = HPS::Text::Transform::Transformable;
+			}
+			AddSubItem(new TextTransformProperty(_trans));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetTransform(_trans);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetTransform();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		HPS::Text::Transform _trans;
+	};
+
+	class TextKitRendererProperty : public SettableProperty
+	{
+	public:
+		TextKitRendererProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Renderer"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowRenderer(_renderer);
+			if (!isSet)
+			{
+				_renderer = HPS::Text::Renderer::Default;
+			}
+			AddSubItem(new TextRendererProperty(_renderer));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetRenderer(_renderer);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetRenderer();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		HPS::Text::Renderer _renderer;
+	};
+
+	class TextKitPreferenceProperty : public SettableProperty
+	{
+	public:
+		TextKitPreferenceProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Preference"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowPreference(_cutoff, _units, _smaller, _larger);
+			if (!isSet)
+			{
+				_cutoff = 0.0f;
+				_units = HPS::Text::SizeUnits::Points;
+				_smaller = HPS::Text::Preference::Default;
+				_larger = HPS::Text::Preference::Default;
+			}
+			AddSubItem(new FloatProperty(_T("Cutoff"), _cutoff));
+			AddSubItem(new TextSizeUnitsProperty(_units));
+			AddSubItem(new TextPreferenceProperty(_smaller));
+			AddSubItem(new TextPreferenceProperty(_larger));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetPreference(_cutoff, _units, _smaller, _larger);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetPreference();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		float _cutoff;
+		HPS::Text::SizeUnits _units;
+		HPS::Text::Preference _smaller;
+		HPS::Text::Preference _larger;
+	};
+
+	class TextKitPathProperty : public SettableProperty
+	{
+	public:
+		TextKitPathProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Path"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowPath(_path);
+			if (!isSet)
+			{
+				_path = HPS::Vector::Unit();
+			}
+			AddSubItem(new VectorProperty(_T("Path"), _path));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetPath(_path);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetPath();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		HPS::Vector _path;
+	};
+
+	class TextKitSpacingProperty : public SettableProperty
+	{
+	public:
+		TextKitSpacingProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Spacing"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowSpacing(_multiplier);
+			if (!isSet)
+			{
+				_multiplier = 0.0f;
+			}
+			AddSubItem(new FloatProperty(_T("Multiplier"), _multiplier));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetSpacing(_multiplier);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetSpacing();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		float _multiplier;
+	};
+
+	class TextKitBackgroundProperty : public SettableProperty
+	{
+	public:
+		TextKitBackgroundProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("Background"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowBackground(_state, _name);
+			if (!isSet)
+			{
+				_state = true;
+				_name = "name";
+			}
+			auto boolProperty = new ConditionalBoolProperty(_T("State"), _state);
+			AddSubItem(boolProperty);
+			AddSubItem(new UTF8Property(_T("Name"), _name));
+			boolProperty->EnableValidProperties();
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetBackground(_state, _name);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetBackground();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		bool _state;
+		HPS::UTF8 _name;
+	};
+
+	class TextKitBackgroundStyleProperty : public SettableProperty
+	{
+	public:
+		TextKitBackgroundStyleProperty(
+			HPS::TextKit& kit)
+			: SettableProperty(_T("BackgroundStyle"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowBackgroundStyle(_name);
+			if (!isSet)
+			{
+				_name = "name";
+			}
+			AddSubItem(new UTF8Property(_T("Name"), _name));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetBackgroundStyle(_name);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetBackgroundStyle();
+		}
+
+	private:
+		HPS::TextKit& kit;
+		HPS::UTF8 _name;
+	};
+
+
+	class TextKitProperty : public RootProperty
+	{
+	public:
+		TextKitProperty(
+			CMFCPropertyGridCtrl& ctrl,
+			HPS::TextKey const& key)
+			: RootProperty(ctrl)
+			, key(key)
+		{
+			this->key.Show(kit);
+			ctrl.AddProperty(new TextKitPositionProperty(kit));
+			ctrl.AddProperty(new TextKitTextProperty(kit));
+			ctrl.AddProperty(new TextKitColorProperty(kit));
+			ctrl.AddProperty(new TextKitModellingMatrixProperty(kit));
+			ctrl.AddProperty(new TextKitAlignmentProperty(kit));
+			ctrl.AddProperty(new TextKitBoldProperty(kit));
+			ctrl.AddProperty(new TextKitItalicProperty(kit));
+			ctrl.AddProperty(new TextKitOverlineProperty(kit));
+			ctrl.AddProperty(new TextKitStrikethroughProperty(kit));
+			ctrl.AddProperty(new TextKitUnderlineProperty(kit));
+			ctrl.AddProperty(new TextKitSlantProperty(kit));
+			ctrl.AddProperty(new TextKitLineSpacingProperty(kit));
+			ctrl.AddProperty(new TextKitRotationProperty(kit));
+			ctrl.AddProperty(new TextKitExtraSpaceProperty(kit));
+			ctrl.AddProperty(new TextKitGreekingProperty(kit));
+			ctrl.AddProperty(new TextKitSizeToleranceProperty(kit));
+			ctrl.AddProperty(new TextKitSizeProperty(kit));
+			ctrl.AddProperty(new TextKitFontProperty(kit));
+			ctrl.AddProperty(new TextKitTransformProperty(kit));
+			ctrl.AddProperty(new TextKitRendererProperty(kit));
+			ctrl.AddProperty(new TextKitPreferenceProperty(kit));
+			ctrl.AddProperty(new TextKitPathProperty(kit));
+			ctrl.AddProperty(new TextKitSpacingProperty(kit));
+			ctrl.AddProperty(new TextKitBackgroundProperty(kit));
+			ctrl.AddProperty(new TextKitBackgroundMarginsProperty(kit));
+			ctrl.AddProperty(new TextKitBackgroundStyleProperty(kit));
+			ctrl.AddProperty(new TextKitLeaderLinesProperty(kit));
+			ctrl.AddProperty(new TextKitRegionProperty(kit));
+			ctrl.AddProperty(new TextKitCharacterAttributesProperty(kit));
+			ctrl.AddProperty(new TextKitPriorityProperty(kit));
+			ctrl.AddProperty(new TextKitUserDataProperty(kit));
+		}
+
+		void Apply() override
+		{
+			key.Consume(kit);
+		}
+
+	private:
+		HPS::TextKey key;
+		HPS::TextKit kit;
+	};
+
+
 	class CuttingSectionKitPlanesProperty : public SettableArrayProperty
 	{
 	public:
@@ -10061,814 +10886,6 @@ namespace Property
 	};
 
 
-	class TextKitPositionProperty : public BaseProperty
-	{
-	public:
-		TextKitPositionProperty(
-			HPS::TextKit & kit)
-			: BaseProperty(_T("Position"))
-			, kit(kit)
-		{
-			this->kit.ShowPosition(_position);
-			AddSubItem(new PointProperty(_T("Position"), _position));
-		}
-
-		void OnChildChanged() override
-		{
-			kit.SetPosition(_position);
-			BaseProperty::OnChildChanged();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		HPS::Point _position;
-	};
-
-	class TextKitTextProperty : public BaseProperty
-	{
-	public:
-		TextKitTextProperty(
-			HPS::TextKit & kit)
-			: BaseProperty(_T("Text"))
-			, kit(kit)
-		{
-			this->kit.ShowText(_string);
-			AddSubItem(new UTF8Property(_T("String"), _string));
-		}
-
-		void OnChildChanged() override
-		{
-			kit.SetText(_string);
-			BaseProperty::OnChildChanged();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		HPS::UTF8 _string;
-	};
-
-	class TextKitAlignmentProperty : public SettableProperty
-	{
-	public:
-		TextKitAlignmentProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Alignment"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowAlignment(_alignment, _reference_frame, _justification);
-			if (!isSet)
-			{
-				_alignment = HPS::Text::Alignment::BottomLeft;
-				_reference_frame = HPS::Text::ReferenceFrame::WorldAligned;
-				_justification = HPS::Text::Justification::Left;
-			}
-			AddSubItem(new TextAlignmentProperty(_alignment));
-			AddSubItem(new TextReferenceFrameProperty(_reference_frame));
-			AddSubItem(new TextJustificationProperty(_justification));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetAlignment(_alignment, _reference_frame, _justification);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetAlignment();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		HPS::Text::Alignment _alignment;
-		HPS::Text::ReferenceFrame _reference_frame;
-		HPS::Text::Justification _justification;
-	};
-
-	class TextKitBoldProperty : public SettableProperty
-	{
-	public:
-		TextKitBoldProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Bold"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowBold(_state);
-			if (!isSet)
-			{
-				_state = true;
-			}
-			AddSubItem(new BoolProperty(_T("State"), _state));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetBold(_state);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetBold();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		bool _state;
-	};
-
-	class TextKitItalicProperty : public SettableProperty
-	{
-	public:
-		TextKitItalicProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Italic"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowItalic(_state);
-			if (!isSet)
-			{
-				_state = true;
-			}
-			AddSubItem(new BoolProperty(_T("State"), _state));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetItalic(_state);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetItalic();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		bool _state;
-	};
-
-	class TextKitOverlineProperty : public SettableProperty
-	{
-	public:
-		TextKitOverlineProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Overline"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowOverline(_state);
-			if (!isSet)
-			{
-				_state = true;
-			}
-			AddSubItem(new BoolProperty(_T("State"), _state));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetOverline(_state);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetOverline();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		bool _state;
-	};
-
-	class TextKitStrikethroughProperty : public SettableProperty
-	{
-	public:
-		TextKitStrikethroughProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Strikethrough"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowStrikethrough(_state);
-			if (!isSet)
-			{
-				_state = true;
-			}
-			AddSubItem(new BoolProperty(_T("State"), _state));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetStrikethrough(_state);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetStrikethrough();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		bool _state;
-	};
-
-	class TextKitUnderlineProperty : public SettableProperty
-	{
-	public:
-		TextKitUnderlineProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Underline"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowUnderline(_state);
-			if (!isSet)
-			{
-				_state = true;
-			}
-			AddSubItem(new BoolProperty(_T("State"), _state));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetUnderline(_state);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetUnderline();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		bool _state;
-	};
-
-	class TextKitSlantProperty : public SettableProperty
-	{
-	public:
-		TextKitSlantProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Slant"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowSlant(_angle);
-			if (!isSet)
-			{
-				_angle = 0.0f;
-			}
-			AddSubItem(new FloatProperty(_T("Angle"), _angle));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetSlant(_angle);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetSlant();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		float _angle;
-	};
-
-	class TextKitLineSpacingProperty : public SettableProperty
-	{
-	public:
-		TextKitLineSpacingProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("LineSpacing"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowLineSpacing(_multiplier);
-			if (!isSet)
-			{
-				_multiplier = 0.0f;
-			}
-			AddSubItem(new FloatProperty(_T("Multiplier"), _multiplier));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetLineSpacing(_multiplier);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetLineSpacing();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		float _multiplier;
-	};
-
-	class TextKitExtraSpaceProperty : public SettableProperty
-	{
-	public:
-		TextKitExtraSpaceProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("ExtraSpace"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowExtraSpace(_state, _size, _units);
-			if (!isSet)
-			{
-				_state = true;
-				_size = 0.0f;
-				_units = HPS::Text::SizeUnits::Points;
-			}
-			auto boolProperty = new ConditionalBoolProperty(_T("State"), _state);
-			AddSubItem(boolProperty);
-			AddSubItem(new FloatProperty(_T("Size"), _size));
-			AddSubItem(new TextSizeUnitsProperty(_units));
-			boolProperty->EnableValidProperties();
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetExtraSpace(_state, _size, _units);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetExtraSpace();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		bool _state;
-		float _size;
-		HPS::Text::SizeUnits _units;
-	};
-
-	class TextKitGreekingProperty : public SettableProperty
-	{
-	public:
-		TextKitGreekingProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Greeking"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowGreeking(_state, _size, _units, _mode);
-			if (!isSet)
-			{
-				_state = true;
-				_size = 0.0f;
-				_units = HPS::Text::GreekingUnits::Pixels;
-				_mode = HPS::Text::GreekingMode::Lines;
-			}
-			auto boolProperty = new ConditionalBoolProperty(_T("State"), _state);
-			AddSubItem(boolProperty);
-			AddSubItem(new FloatProperty(_T("Size"), _size));
-			AddSubItem(new TextGreekingUnitsProperty(_units));
-			AddSubItem(new TextGreekingModeProperty(_mode));
-			boolProperty->EnableValidProperties();
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetGreeking(_state, _size, _units, _mode);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetGreeking();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		bool _state;
-		float _size;
-		HPS::Text::GreekingUnits _units;
-		HPS::Text::GreekingMode _mode;
-	};
-
-	class TextKitSizeToleranceProperty : public SettableProperty
-	{
-	public:
-		TextKitSizeToleranceProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("SizeTolerance"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowSizeTolerance(_state, _size, _units);
-			if (!isSet)
-			{
-				_state = true;
-				_size = 0.0f;
-				_units = HPS::Text::SizeToleranceUnits::Percent;
-			}
-			auto boolProperty = new ConditionalBoolProperty(_T("State"), _state);
-			AddSubItem(boolProperty);
-			AddSubItem(new FloatProperty(_T("Size"), _size));
-			AddSubItem(new TextSizeToleranceUnitsProperty(_units));
-			boolProperty->EnableValidProperties();
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetSizeTolerance(_state, _size, _units);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetSizeTolerance();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		bool _state;
-		float _size;
-		HPS::Text::SizeToleranceUnits _units;
-	};
-
-	class TextKitSizeProperty : public SettableProperty
-	{
-	public:
-		TextKitSizeProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Size"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowSize(_size, _units);
-			if (!isSet)
-			{
-				_size = 0.0f;
-				_units = HPS::Text::SizeUnits::Points;
-			}
-			AddSubItem(new FloatProperty(_T("Size"), _size));
-			AddSubItem(new TextSizeUnitsProperty(_units));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetSize(_size, _units);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetSize();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		float _size;
-		HPS::Text::SizeUnits _units;
-	};
-
-	class TextKitFontProperty : public SettableProperty
-	{
-	public:
-		TextKitFontProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Font"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowFont(_name);
-			if (!isSet)
-			{
-				_name = "name";
-			}
-			AddSubItem(new UTF8Property(_T("Name"), _name));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetFont(_name);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetFont();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		HPS::UTF8 _name;
-	};
-
-	class TextKitTransformProperty : public SettableProperty
-	{
-	public:
-		TextKitTransformProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Transform"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowTransform(_trans);
-			if (!isSet)
-			{
-				_trans = HPS::Text::Transform::Transformable;
-			}
-			AddSubItem(new TextTransformProperty(_trans));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetTransform(_trans);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetTransform();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		HPS::Text::Transform _trans;
-	};
-
-	class TextKitRendererProperty : public SettableProperty
-	{
-	public:
-		TextKitRendererProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Renderer"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowRenderer(_renderer);
-			if (!isSet)
-			{
-				_renderer = HPS::Text::Renderer::Default;
-			}
-			AddSubItem(new TextRendererProperty(_renderer));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetRenderer(_renderer);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetRenderer();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		HPS::Text::Renderer _renderer;
-	};
-
-	class TextKitPreferenceProperty : public SettableProperty
-	{
-	public:
-		TextKitPreferenceProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Preference"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowPreference(_cutoff, _units, _smaller, _larger);
-			if (!isSet)
-			{
-				_cutoff = 0.0f;
-				_units = HPS::Text::SizeUnits::Points;
-				_smaller = HPS::Text::Preference::Default;
-				_larger = HPS::Text::Preference::Default;
-			}
-			AddSubItem(new FloatProperty(_T("Cutoff"), _cutoff));
-			AddSubItem(new TextSizeUnitsProperty(_units));
-			AddSubItem(new TextPreferenceProperty(_smaller));
-			AddSubItem(new TextPreferenceProperty(_larger));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetPreference(_cutoff, _units, _smaller, _larger);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetPreference();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		float _cutoff;
-		HPS::Text::SizeUnits _units;
-		HPS::Text::Preference _smaller;
-		HPS::Text::Preference _larger;
-	};
-
-	class TextKitPathProperty : public SettableProperty
-	{
-	public:
-		TextKitPathProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Path"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowPath(_path);
-			if (!isSet)
-			{
-				_path = HPS::Vector::Unit();
-			}
-			AddSubItem(new VectorProperty(_T("Path"), _path));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetPath(_path);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetPath();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		HPS::Vector _path;
-	};
-
-	class TextKitSpacingProperty : public SettableProperty
-	{
-	public:
-		TextKitSpacingProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Spacing"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowSpacing(_multiplier);
-			if (!isSet)
-			{
-				_multiplier = 0.0f;
-			}
-			AddSubItem(new FloatProperty(_T("Multiplier"), _multiplier));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetSpacing(_multiplier);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetSpacing();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		float _multiplier;
-	};
-
-	class TextKitBackgroundProperty : public SettableProperty
-	{
-	public:
-		TextKitBackgroundProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("Background"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowBackground(_state, _name);
-			if (!isSet)
-			{
-				_state = true;
-				_name = "name";
-			}
-			auto boolProperty = new ConditionalBoolProperty(_T("State"), _state);
-			AddSubItem(boolProperty);
-			AddSubItem(new UTF8Property(_T("Name"), _name));
-			boolProperty->EnableValidProperties();
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetBackground(_state, _name);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetBackground();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		bool _state;
-		HPS::UTF8 _name;
-	};
-
-	class TextKitBackgroundStyleProperty : public SettableProperty
-	{
-	public:
-		TextKitBackgroundStyleProperty(
-			HPS::TextKit & kit)
-			: SettableProperty(_T("BackgroundStyle"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowBackgroundStyle(_name);
-			if (!isSet)
-			{
-				_name = "name";
-			}
-			AddSubItem(new UTF8Property(_T("Name"), _name));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetBackgroundStyle(_name);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetBackgroundStyle();
-		}
-
-	private:
-		HPS::TextKit & kit;
-		HPS::UTF8 _name;
-	};
-
-	class TextKitProperty : public RootProperty
-	{
-	public:
-		TextKitProperty(
-			CMFCPropertyGridCtrl & ctrl,
-			HPS::TextKey const & key)
-			: RootProperty(ctrl)
-			, key(key)
-		{
-			this->key.Show(kit);
-			ctrl.AddProperty(new TextKitPositionProperty(kit));
-			ctrl.AddProperty(new TextKitTextProperty(kit));
-			ctrl.AddProperty(new TextKitColorProperty(kit));
-			ctrl.AddProperty(new TextKitModellingMatrixProperty(kit));
-			ctrl.AddProperty(new TextKitAlignmentProperty(kit));
-			ctrl.AddProperty(new TextKitBoldProperty(kit));
-			ctrl.AddProperty(new TextKitItalicProperty(kit));
-			ctrl.AddProperty(new TextKitOverlineProperty(kit));
-			ctrl.AddProperty(new TextKitStrikethroughProperty(kit));
-			ctrl.AddProperty(new TextKitUnderlineProperty(kit));
-			ctrl.AddProperty(new TextKitSlantProperty(kit));
-			ctrl.AddProperty(new TextKitLineSpacingProperty(kit));
-			ctrl.AddProperty(new TextKitRotationProperty(kit));
-			ctrl.AddProperty(new TextKitExtraSpaceProperty(kit));
-			ctrl.AddProperty(new TextKitGreekingProperty(kit));
-			ctrl.AddProperty(new TextKitSizeToleranceProperty(kit));
-			ctrl.AddProperty(new TextKitSizeProperty(kit));
-			ctrl.AddProperty(new TextKitFontProperty(kit));
-			ctrl.AddProperty(new TextKitTransformProperty(kit));
-			ctrl.AddProperty(new TextKitRendererProperty(kit));
-			ctrl.AddProperty(new TextKitPreferenceProperty(kit));
-			ctrl.AddProperty(new TextKitPathProperty(kit));
-			ctrl.AddProperty(new TextKitSpacingProperty(kit));
-			ctrl.AddProperty(new TextKitBackgroundProperty(kit));
-			ctrl.AddProperty(new TextKitBackgroundMarginsProperty(kit));
-			ctrl.AddProperty(new TextKitBackgroundStyleProperty(kit));
-			ctrl.AddProperty(new TextKitLeaderLinesProperty(kit));
-			ctrl.AddProperty(new TextKitRegionProperty(kit));
-			ctrl.AddProperty(new TextKitPriorityProperty(kit));
-			ctrl.AddProperty(new TextKitUserDataProperty(kit));
-		}
-
-		void Apply() override
-		{
-			key.Consume(kit);
-		}
-
-	private:
-		HPS::TextKey key;
-		HPS::TextKit kit;
-	};
-
 	class TransparencyKitMethodProperty : public SettableProperty
 	{
 	public:
@@ -13615,6 +13632,375 @@ namespace Property
 		HPS::SphereAttributeKit kit;
 	};
 
+	class CharacterAttributeKitFontProperty : public SettableProperty
+	{
+	public:
+		CharacterAttributeKitFontProperty(
+			HPS::CharacterAttributeKit & kit)
+			: SettableProperty(_T("Font"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowFont(_font);
+			if (!isSet)
+			{
+				_font = "font";
+			}
+			AddSubItem(new UTF8Property(_T("Font"), _font));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetFont(_font);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetFont();
+		}
+
+	private:
+		HPS::CharacterAttributeKit & kit;
+		HPS::UTF8 _font;
+	};
+
+	class CharacterAttributeKitColorProperty : public SettableProperty
+	{
+	public:
+		CharacterAttributeKitColorProperty(
+			HPS::CharacterAttributeKit & kit)
+			: SettableProperty(_T("Color"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowColor(_color);
+			if (!isSet)
+			{
+				_color = HPS::RGBColor::Black();
+			}
+			AddSubItem(new RGBColorProperty(_T("Color"), _color));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetColor(_color);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetColor();
+		}
+
+	private:
+		HPS::CharacterAttributeKit & kit;
+		HPS::RGBColor _color;
+	};
+
+	class CharacterAttributeKitSizeProperty : public SettableProperty
+	{
+	public:
+		CharacterAttributeKitSizeProperty(
+			HPS::CharacterAttributeKit & kit)
+			: SettableProperty(_T("Size"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowSize(_size, _units);
+			if (!isSet)
+			{
+				_size = 0.0f;
+				_units = HPS::Text::SizeUnits::Points;
+			}
+			AddSubItem(new FloatProperty(_T("Size"), _size));
+			AddSubItem(new TextSizeUnitsProperty(_units));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetSize(_size, _units);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetSize();
+		}
+
+	private:
+		HPS::CharacterAttributeKit & kit;
+		float _size;
+		HPS::Text::SizeUnits _units;
+	};
+
+	class CharacterAttributeKitHorizontalOffsetProperty : public SettableProperty
+	{
+	public:
+		CharacterAttributeKitHorizontalOffsetProperty(
+			HPS::CharacterAttributeKit & kit)
+			: SettableProperty(_T("HorizontalOffset"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowHorizontalOffset(_offset, _units);
+			if (!isSet)
+			{
+				_offset = 0.0f;
+				_units = HPS::Text::SizeUnits::Points;
+			}
+			AddSubItem(new FloatProperty(_T("Offset"), _offset));
+			AddSubItem(new TextSizeUnitsProperty(_units));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetHorizontalOffset(_offset, _units);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetHorizontalOffset();
+		}
+
+	private:
+		HPS::CharacterAttributeKit & kit;
+		float _offset;
+		HPS::Text::SizeUnits _units;
+	};
+
+	class CharacterAttributeKitVerticalOffsetProperty : public SettableProperty
+	{
+	public:
+		CharacterAttributeKitVerticalOffsetProperty(
+			HPS::CharacterAttributeKit & kit)
+			: SettableProperty(_T("VerticalOffset"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowVerticalOffset(_offset, _units);
+			if (!isSet)
+			{
+				_offset = 0.0f;
+				_units = HPS::Text::SizeUnits::Points;
+			}
+			AddSubItem(new FloatProperty(_T("Offset"), _offset));
+			AddSubItem(new TextSizeUnitsProperty(_units));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetVerticalOffset(_offset, _units);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetVerticalOffset();
+		}
+
+	private:
+		HPS::CharacterAttributeKit & kit;
+		float _offset;
+		HPS::Text::SizeUnits _units;
+	};
+
+	class CharacterAttributeKitRotationProperty : public SettableProperty
+	{
+	public:
+		CharacterAttributeKitRotationProperty(
+			HPS::CharacterAttributeKit & kit)
+			: SettableProperty(_T("Rotation"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowRotation(_rotation, _fixed);
+			if (!isSet)
+			{
+				_rotation = 0.0f;
+				_fixed = true;
+			}
+			AddSubItem(new FloatProperty(_T("Rotation"), _rotation));
+			AddSubItem(new BoolProperty(_T("Fixed"), _fixed));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetRotation(_rotation, _fixed);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetRotation();
+		}
+
+	private:
+		HPS::CharacterAttributeKit & kit;
+		float _rotation;
+		bool _fixed;
+	};
+
+	class CharacterAttributeKitWidthScaleProperty : public SettableProperty
+	{
+	public:
+		CharacterAttributeKitWidthScaleProperty(
+			HPS::CharacterAttributeKit & kit)
+			: SettableProperty(_T("WidthScale"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowWidthScale(_scale);
+			if (!isSet)
+			{
+				_scale = 0.0f;
+			}
+			AddSubItem(new FloatProperty(_T("Scale"), _scale));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetWidthScale(_scale);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetWidthScale();
+		}
+
+	private:
+		HPS::CharacterAttributeKit & kit;
+		float _scale;
+	};
+
+	class CharacterAttributeKitSlantProperty : public SettableProperty
+	{
+	public:
+		CharacterAttributeKitSlantProperty(
+			HPS::CharacterAttributeKit & kit)
+			: SettableProperty(_T("Slant"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowSlant(_slant);
+			if (!isSet)
+			{
+				_slant = 0.0f;
+			}
+			AddSubItem(new FloatProperty(_T("Slant"), _slant));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetSlant(_slant);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetSlant();
+		}
+
+	private:
+		HPS::CharacterAttributeKit & kit;
+		float _slant;
+	};
+
+	class CharacterAttributeKitInvisibleProperty : public SettableProperty
+	{
+	public:
+		CharacterAttributeKitInvisibleProperty(
+			HPS::CharacterAttributeKit & kit)
+			: SettableProperty(_T("Invisible"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowInvisible();
+			if (!isSet)
+			{
+			}
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetInvisible();
+		}
+
+		void Unset() override
+		{
+			kit.UnsetInvisible();
+		}
+
+	private:
+		HPS::CharacterAttributeKit & kit;
+	};
+
+	class CharacterAttributeKitOmittedProperty : public SettableProperty
+	{
+	public:
+		CharacterAttributeKitOmittedProperty(
+			HPS::CharacterAttributeKit & kit)
+			: SettableProperty(_T("Omitted"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowOmitted();
+			if (!isSet)
+			{
+			}
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetOmitted();
+		}
+
+		void Unset() override
+		{
+			kit.UnsetOmitted();
+		}
+
+	private:
+		HPS::CharacterAttributeKit & kit;
+	};
+
+	class CharacterAttributeKitProperty : public RootProperty
+	{
+	public:
+		CharacterAttributeKitProperty(
+			CMFCPropertyGridCtrl & ctrl,
+			HPS::SegmentKey const & key)
+			: RootProperty(ctrl)
+			, key(key)
+		{
+			this->key.ShowCharacterAttribute(kit);
+			ctrl.AddProperty(new CharacterAttributeKitFontProperty(kit));
+			ctrl.AddProperty(new CharacterAttributeKitColorProperty(kit));
+			ctrl.AddProperty(new CharacterAttributeKitSizeProperty(kit));
+			ctrl.AddProperty(new CharacterAttributeKitHorizontalOffsetProperty(kit));
+			ctrl.AddProperty(new CharacterAttributeKitVerticalOffsetProperty(kit));
+			ctrl.AddProperty(new CharacterAttributeKitRotationProperty(kit));
+			ctrl.AddProperty(new CharacterAttributeKitWidthScaleProperty(kit));
+			ctrl.AddProperty(new CharacterAttributeKitSlantProperty(kit));
+			ctrl.AddProperty(new CharacterAttributeKitInvisibleProperty(kit));
+			ctrl.AddProperty(new CharacterAttributeKitOmittedProperty(kit));
+		}
+
+		void Apply() override
+		{
+			key.UnsetCharacterAttribute();
+			key.SetCharacterAttribute(kit);
+		}
+
+	private:
+		HPS::SegmentKey key;
+		HPS::CharacterAttributeKit kit;
+	};
+
 	class CircleKitCenterProperty : public BaseProperty
 	{
 	public:
@@ -16337,39 +16723,6 @@ namespace Property
 		bool _state;
 	};
 
-	class VisualEffectsKitAntiAliasingProperty : public SettableProperty
-	{
-	public:
-		VisualEffectsKitAntiAliasingProperty(
-			HPS::VisualEffectsKit & kit)
-			: SettableProperty(_T("AntiAliasing"))
-			, kit(kit)
-		{
-			bool isSet = this->kit.ShowAntiAliasing(_state);
-			if (!isSet)
-			{
-				_state = true;
-			}
-			AddSubItem(new BoolProperty(_T("State"), _state));
-			IsSet(isSet);
-		}
-
-	protected:
-		void Set() override
-		{
-			kit.SetAntiAliasing(_state);
-		}
-
-		void Unset() override
-		{
-			kit.UnsetAntiAliasing();
-		}
-
-	private:
-		HPS::VisualEffectsKit & kit;
-		bool _state;
-	};
-
 	class VisualEffectsKitTextAntiAliasingProperty : public SettableProperty
 	{
 	public:
@@ -16396,6 +16749,72 @@ namespace Property
 		void Unset() override
 		{
 			kit.UnsetTextAntiAliasing();
+		}
+
+	private:
+		HPS::VisualEffectsKit & kit;
+		bool _state;
+	};
+
+	class VisualEffectsKitLinesAntiAliasingProperty : public SettableProperty
+	{
+	public:
+		VisualEffectsKitLinesAntiAliasingProperty(
+			HPS::VisualEffectsKit & kit)
+			: SettableProperty(_T("LinesAntiAliasing"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowLinesAntiAliasing(_state);
+			if (!isSet)
+			{
+				_state = true;
+			}
+			AddSubItem(new BoolProperty(_T("State"), _state));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetLinesAntiAliasing(_state);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetLinesAntiAliasing();
+		}
+
+	private:
+		HPS::VisualEffectsKit & kit;
+		bool _state;
+	};
+
+	class VisualEffectsKitScreenAntiAliasingProperty : public SettableProperty
+	{
+	public:
+		VisualEffectsKitScreenAntiAliasingProperty(
+			HPS::VisualEffectsKit & kit)
+			: SettableProperty(_T("ScreenAntiAliasing"))
+			, kit(kit)
+		{
+			bool isSet = this->kit.ShowScreenAntiAliasing(_state);
+			if (!isSet)
+			{
+				_state = true;
+			}
+			AddSubItem(new BoolProperty(_T("State"), _state));
+			IsSet(isSet);
+		}
+
+	protected:
+		void Set() override
+		{
+			kit.SetScreenAntiAliasing(_state);
+		}
+
+		void Unset() override
+		{
+			kit.UnsetScreenAntiAliasing();
 		}
 
 	private:
@@ -16693,8 +17112,9 @@ namespace Property
 			ctrl.AddProperty(new VisualEffectsKitBloomEnabledProperty(kit));
 			ctrl.AddProperty(new VisualEffectsKitEyeDomeLightingEnabledProperty(kit));
 			ctrl.AddProperty(new VisualEffectsKitEyeDomeLightingBackColorProperty(kit));
-			ctrl.AddProperty(new VisualEffectsKitAntiAliasingProperty(kit));
 			ctrl.AddProperty(new VisualEffectsKitTextAntiAliasingProperty(kit));
+			ctrl.AddProperty(new VisualEffectsKitLinesAntiAliasingProperty(kit));
+			ctrl.AddProperty(new VisualEffectsKitScreenAntiAliasingProperty(kit));
 			ctrl.AddProperty(new VisualEffectsKitShadowMapsProperty(kit));
 			ctrl.AddProperty(new VisualEffectsKitSimpleShadowProperty(kit));
 			ctrl.AddProperty(new VisualEffectsKitSimpleShadowPlaneProperty(kit));
