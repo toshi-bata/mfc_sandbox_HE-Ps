@@ -1,6 +1,6 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 *
-* Copyright (c) 2010 - 2023 by Tech Soft 3D, Inc.
+* Copyright (c) 2010 - 2026 by Tech Soft 3D, Inc.
 * The information contained herein is confidential and proprietary to Tech Soft 3D, Inc., and considered a trade secret
 * as defined under civil and criminal statutes. Tech Soft 3D shall pursue its civil and criminal remedies in the event
 * of unauthorized use or misappropriation of its trade secrets. Use of this information by anyone other than authorized 
@@ -29,7 +29,7 @@ public :
 		A3DAsmModelFileGet(pModelFile, &m_sModelFileData);
 	}
 
-	~A3DModelFileConnector()	{ A3DAsmModelFileGet(NULL,  &m_sModelFileData); }	
+	~A3DModelFileConnector()	{ A3DAsmModelFileGet(A3D_NULL_HANDLE, &m_sModelFileData); }	
 
 	A3DStatus Traverse(A3DVisitorContainer* psVisitor, bool bVisitPrototype = false);
 
@@ -64,8 +64,8 @@ public :
 	A3DAsmProductOccurrenceDataSLW	*m_pProductOccurrenceDataSLW;
 	A3DAsmProductOccurrenceDataCat	*m_pProductOccurrenceDataCat;
 	A3DAsmProductOccurrenceDataCV5	*m_pProductOccurrenceDataCV5;
-	A3DAsmProductOccurrenceDataUg	*m_pProductOccurrenceDataUg;
-	A3DAsmProductOccurrenceDataProe *m_pProductOccurrenceDataProe;
+	A3DAsmProductOccurrenceDataNX	*m_pProductOccurrenceDataNX;
+	A3DAsmProductOccurrenceDataCreo *m_pProductOccurrenceDataCreo;
 	A3DAsmProductOccurrenceDataInv	*m_pProductOccurrenceDataInv;
 	A3DAsmProductOccurrenceDataJT	*m_pProductOccurrenceDataJT;
 
@@ -91,7 +91,7 @@ private:
 
 	A3DPartConnector(const A3DAsmPartDefinition *pPart) : A3DConnector(pPart) 
 	{
-		m_pFather = NULL;
+		m_pFather = A3D_NULL_HANDLE;
 		m_bIsInstanciated = false;
 		A3D_INITIALIZE_DATA(A3DAsmPartDefinitionData, m_sPartData);
 		A3DAsmPartDefinitionGet(pPart, &m_sPartData);
@@ -99,7 +99,7 @@ private:
 
 	~A3DPartConnector()
 	{
-		A3DAsmPartDefinitionGet(NULL, &m_sPartData);
+		A3DAsmPartDefinitionGet(A3D_NULL_HANDLE, &m_sPartData);
 	}
 
 
@@ -118,7 +118,7 @@ class A3DRiConnector : public  A3DConnector
 {
 	friend class A3DPartConnector;
 	friend class A3DRiSetConnector;
-	friend class A3DFRMFeatureTreeConnector;
+	friend class A3DFRMTreeConnector;
 	bool m_bIsInstanciated;
 private:
 	
@@ -131,7 +131,7 @@ private:
 
 	~A3DRiConnector()
 	{
-		A3DRiRepresentationItemGet(NULL, &m_sRiData);
+		A3DRiRepresentationItemGet(A3D_NULL_HANDLE, &m_sRiData);
 	}
 
 	A3DStatus TraverseRi(A3DVisitorContainer*  psVisitor);
@@ -157,7 +157,7 @@ public :
 	
 	~A3DRiBrepModelConnector()
 	{
-		A3DRiBrepModelGet(NULL, &m_sRiBrepModelData);
+		A3DRiBrepModelGet(A3D_NULL_HANDLE, &m_sRiBrepModelData);
 	}
 
 	A3DStatus TraverseRiBrepModel(A3DVisitorContainer*  psVisitor) const;
@@ -182,7 +182,7 @@ private:
 
 	~A3DRiSetConnector()
 	{
-		A3DRiSetGet(NULL, &m_sRiSetData);
+		A3DRiSetGet(A3D_NULL_HANDLE, &m_sRiSetData);
 	}
 
 	A3DStatus TraverseRiSet(A3DVisitorContainer*  psVisitor);
@@ -205,7 +205,7 @@ private:
 
 	~A3DPolyRiBrepModelConnector()
 	{
-		A3DRiPolyBrepModelGet(NULL, &m_sRiPolyBrepModelData);
+		A3DRiPolyBrepModelGet(A3D_NULL_HANDLE, &m_sRiPolyBrepModelData);
 	}
 
 
@@ -218,7 +218,7 @@ public:
 
 class A3DFRMParameterConnector : public  A3DConnector
 {
-	friend class A3DFRMFeatureTreeConnector;
+	friend class A3DFRMTreeConnector;
 	friend class A3DFRMFeatureConnector;
 private:
 
@@ -230,7 +230,7 @@ private:
 
 	~A3DFRMParameterConnector()
 	{
-		A3DFRMParameterGet (NULL, &m_sData);
+		A3DFRMParameterGet(A3D_NULL_HANDLE, &m_sData);
 	}
 
 
@@ -242,20 +242,20 @@ public:
 };
 
 
-class A3DFRMFeatureLinkedItemConnector : public  A3DConnector
+class A3DFRMLinkedItemConnector : public  A3DConnector
 {
 	friend class A3DFRMFeatureConnector;
 private:
 
-	A3DFRMFeatureLinkedItemConnector(const A3DFRMLinkedItem *pLinkedItem) : A3DConnector(pLinkedItem)
+	A3DFRMLinkedItemConnector(const A3DFRMLinkedItem *pLinkedItem) : A3DConnector(pLinkedItem)
 	{
 		A3D_INITIALIZE_DATA(A3DFRMLinkedItemData, m_sData);
 		A3DFRMLinkedItemGet (pLinkedItem, &m_sData);
 	}
 
-	~A3DFRMFeatureLinkedItemConnector()
+	~A3DFRMLinkedItemConnector()
 	{
-		A3DFRMLinkedItemGet (NULL, &m_sData);
+		A3DFRMLinkedItemGet(A3D_NULL_HANDLE, &m_sData);
 	}
 
 
@@ -281,7 +281,7 @@ private:
 
 	~A3DFRMFeatureConnector()
 	{
-		A3DFRMFeatureGet (NULL, &m_sData);
+		A3DFRMFeatureGet(A3D_NULL_HANDLE, &m_sData);
 	}
 
 
@@ -293,20 +293,20 @@ public:
 
 };
 
-class A3DFRMFeatureTreeConnector : public  A3DConnector
+class A3DFRMTreeConnector : public  A3DConnector
 {
 	friend class A3DProductOccurrenceConnector;
 protected:
 
-	A3DFRMFeatureTreeConnector(const A3DFRMTree *pTree) : A3DConnector(pTree)
+	A3DFRMTreeConnector(const A3DFRMTree *pTree) : A3DConnector(pTree)
 	{
 		A3D_INITIALIZE_DATA(A3DFRMTreeData, m_sTreeData);
 		A3DFRMTreeGet (pTree, &m_sTreeData);
 	}
 
-	~A3DFRMFeatureTreeConnector()
+	~A3DFRMTreeConnector()
 	{
-		A3DFRMTreeGet (NULL, &m_sTreeData);
+		A3DFRMTreeGet(A3D_NULL_HANDLE, &m_sTreeData);
 	}
 
 	A3DStatus TraverseFeatureTree(A3DVisitorContainer*  psVisitor) const;

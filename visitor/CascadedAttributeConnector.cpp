@@ -1,6 +1,6 @@
 /***********************************************************************************************************************
 *
-* Copyright (c) 2010 - 2023 by Tech Soft 3D, Inc.
+* Copyright (c) 2010 - 2026 by Tech Soft 3D, Inc.
 * The information contained herein is confidential and proprietary to Tech Soft 3D, Inc., and considered a trade secret
 * as defined under civil and criminal statutes. Tech Soft 3D shall pursue its civil and criminal remedies in the event
 * of unauthorized use or misappropriation of its trade secrets. Use of this information by anyone other than authorized 
@@ -20,7 +20,7 @@ ColorMaterialsConnector::ColorMaterialsConnector(A3DMiscCascadedAttributes* pAtt
 
 ColorMaterialsConnector::~ColorMaterialsConnector()
 {
-	A3DMiscCascadedAttributesGet(NULL, &(m_sCascadedAttributeData));
+	A3DMiscCascadedAttributesGet(A3D_NULL_HANDLE, &(m_sCascadedAttributeData));
 }
 
 

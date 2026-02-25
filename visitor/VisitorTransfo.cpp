@@ -1,6 +1,6 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 *
-* Copyright (c) 2010 - 2023 by Tech Soft 3D, Inc.
+* Copyright (c) 2010 - 2026 by Tech Soft 3D, Inc.
 * The information contained herein is confidential and proprietary to Tech Soft 3D, Inc., and considered a trade secret
 * as defined under civil and criminal statutes. Tech Soft 3D shall pursue its civil and criminal remedies in the event
 * of unauthorized use or misappropriation of its trade secrets. Use of this information by anyone other than authorized 
@@ -54,7 +54,7 @@ A3DTransfoConnector* A3DVisitorTransfo::GetTransfoConnectorFromManager(A3DEntity
 				pConnector->SetGlobalMatrix(sCSysData.m_pTransformation);
 				return pConnector;
 			}
-			A3DMiscEntityReferenceGet (NULL, &sSERData);
+			A3DMiscEntityReferenceGet(A3D_NULL_HANDLE, &sSERData);
 		}
 		
 		A3DStepEntityRefManager const* pSERM =  m_psContainer->GetActiveStepEntityRefManager(pEntity);
@@ -73,7 +73,7 @@ A3DTransfoConnector* A3DVisitorTransfo::GetTransfoConnectorFromManager(A3DEntity
 				pConnector->SetGlobalMatrix(sCSysData.m_pTransformation);
 				return pConnector;
 			}
-			A3DMiscEntityReferenceGet (NULL, &sSERData);
+			A3DMiscEntityReferenceGet(A3D_NULL_HANDLE, &sSERData);
 		}
 	}
 	
@@ -111,7 +111,7 @@ A3DStatus A3DVisitorTransfo::visitEnter(const A3DRiConnector& sConnector)
 		//GlobalMatrix
 		sTransfoConnector.GetGlobalTransfo(sTransfo);
 		m_adPushTransfo.push_back(sTransfo);
-		A3DRiCoordinateSystemGet(NULL, &sA3DRiCoordinateSystemData);
+		A3DRiCoordinateSystemGet(A3D_NULL_HANDLE, &sA3DRiCoordinateSystemData);
 	}
 	else
 	{
@@ -136,32 +136,32 @@ A3DStatus A3DVisitorTransfo::visitLeave(const A3DRiConnector& /*sConnector*/)
 static A3DStatus stProductOccurrenceGetLocation(	const A3DAsmProductOccurrenceData* psPOccData,
 																A3DMiscCartesianTransformation** ppLocation)
 {
-	if (psPOccData == NULL)
+	if (psPOccData == A3D_NULL_HANDLE)
 		return A3D_ERROR;
 
 	A3DStatus iRet = A3D_SUCCESS;
 	A3DAsmProductOccurrence* pExternal = psPOccData->m_pExternalData;
 
-	if (pExternal != NULL)
+	if (pExternal != A3D_NULL_HANDLE)
 	{
 		A3DAsmProductOccurrenceData sExternalDataData;
 		A3D_INITIALIZE_DATA( A3DAsmProductOccurrenceData, sExternalDataData);
 		A3DAsmProductOccurrenceGet(pExternal, &sExternalDataData);
 
 		CHECK_RET(stProductOccurrenceGetLocation(	&sExternalDataData  , ppLocation));
-		A3DAsmProductOccurrenceGet(NULL, &sExternalDataData);
+		A3DAsmProductOccurrenceGet(A3D_NULL_HANDLE, &sExternalDataData);
 		if(*ppLocation)
 			return A3D_SUCCESS;
 	}
 
-	if (psPOccData->m_pLocation == NULL && psPOccData->m_pPrototype != NULL)
+	if (psPOccData->m_pLocation == A3D_NULL_HANDLE && psPOccData->m_pPrototype != A3D_NULL_HANDLE)
 	{
 		A3DAsmProductOccurrenceData sPrototypeData;
 		A3D_INITIALIZE_DATA( A3DAsmProductOccurrenceData, sPrototypeData);
 		A3DAsmProductOccurrenceGet(psPOccData->m_pPrototype, &sPrototypeData);
 
 		CHECK_RET(stProductOccurrenceGetLocation(&sPrototypeData, ppLocation));
-		A3DAsmProductOccurrenceGet(NULL, &sPrototypeData);
+		A3DAsmProductOccurrenceGet(A3D_NULL_HANDLE, &sPrototypeData);
 		return A3D_SUCCESS;
 	}
 
@@ -191,7 +191,7 @@ A3DStatus A3DVisitorTransfo::visitEnter(const A3DProductOccurrenceConnector& sCo
 	}
 	else
 	{
-		A3DMiscCartesianTransformation* pLocation = NULL;
+		A3DMiscCartesianTransformation* pLocation = A3D_NULL_HANDLE;
 		stProductOccurrenceGetLocation(&(sConnector.m_sProductOccurrenceData), &pLocation);
 
 		A3DMatrix4x4 sTransfo;
@@ -276,11 +276,11 @@ A3DTransfoConnector* A3DVisitorTransfo::GetTransfoConnector(bool bUseInstance /*
 		//				A3DRiCoordinateSystemData sCSysData;
 		//				A3D_INITIALIZE_DATA(A3DRiCoordinateSystemData, sCSysData);
 		//				iErr = A3DRiCoordinateSystemGet(sSERData.m_pCoordinateSystem, &sCSysData);
-		//				A3DTransfoConnector* pConnector = new A3DTransfoConnector(NULL);
+		//				A3DTransfoConnector* pConnector = new A3DTransfoConnector(A3D_NULL_HANDLE);
 		//				pConnector->SetGlobalMatrix(sCSysData.m_pTransformation);
 		//				return pConnector;
 		//			}
-		//			A3DMiscEntityReferenceGet(NULL, &sSERData);
+		//			A3DMiscEntityReferenceGet(A3D_NULL_HANDLE, &sSERData);
 		//		}
 		//		
 		//		A3DViewLinkedItemManager const* pVLIM =  pTreeVisitor->GetFirstActiveViewLinkedItemManager();
@@ -294,11 +294,11 @@ A3DTransfoConnector* A3DVisitorTransfo::GetTransfoConnector(bool bUseInstance /*
 		//				A3DRiCoordinateSystemData sCSysData;
 		//				A3D_INITIALIZE_DATA(A3DRiCoordinateSystemData, sCSysData);
 		//				iErr = A3DRiCoordinateSystemGet (sSERData.m_pCoordinateSystem, &sCSysData);
-		//				A3DTransfoConnector* pConnector = new A3DTransfoConnector(NULL);
+		//				A3DTransfoConnector* pConnector = new A3DTransfoConnector(A3D_NULL_HANDLE);
 		//				pConnector->SetGlobalMatrix(sCSysData.m_pTransformation);
 		//				return pConnector;
 		//			}
-		//			A3DMiscEntityReferenceGet (NULL, &sSERData);
+		//			A3DMiscEntityReferenceGet(A3D_NULL_HANDLE, &sSERData);
 		//		}
 		//	}
 		//}
@@ -318,7 +318,7 @@ A3DMiscTransformation* A3DVisitorTransfo::CreateTransfo( A3DMatrix4x4 const & rM
 	A3DMiscGeneralTransformationData sData;
 	A3D_INITIALIZE_DATA( A3DMiscGeneralTransformationData, sData);
 	memcpy(	sData.m_adCoeff ,rMatrix.m_adM, 16*sizeof(double));
-	A3DMiscGeneralTransformation* pTransfo = NULL;
+	A3DMiscGeneralTransformation* pTransfo = A3D_NULL_HANDLE;
 	A3DMiscGeneralTransformationCreate (&sData, &pTransfo);
 	return (A3DMiscTransformation*)pTransfo;
 }

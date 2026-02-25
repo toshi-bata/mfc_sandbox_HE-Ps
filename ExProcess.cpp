@@ -618,6 +618,6 @@ bool ExProcess::GetPlaneInfo(A3DRiBrepModel* pRiBrepModel, A3DTopoFace* pTopoFac
 	if (A3D_SUCCESS != status || 0 == iNbA3DEntities)
 		return false;
 
-	bool bRet = m_pPsProcess->GetPlaneInfo(faces[0], position, normal);
+	return m_pPsProcess->GetPlaneInfo(faces[0], position, normal);
 
 }

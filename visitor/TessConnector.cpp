@@ -1,6 +1,6 @@
 /***********************************************************************************************************************
 *
-* Copyright (c) 2010 - 2023 by Tech Soft 3D, Inc.
+* Copyright (c) 2010 - 2026 by Tech Soft 3D, Inc.
 * The information contained herein is confidential and proprietary to Tech Soft 3D, Inc., and considered a trade secret
 * as defined under civil and criminal statutes. Tech Soft 3D shall pursue its civil and criminal remedies in the event
 * of unauthorized use or misappropriation of its trade secrets. Use of this information by anyone other than authorized 
@@ -32,8 +32,8 @@ A3DTessDataConnector::A3DTessDataConnector(const A3DTess3D* pTess3D) : A3DConnec
 
 A3DTessDataConnector::~A3DTessDataConnector()
 {
-	A3DTess3DGet( NULL, &m_sTessData);
-	A3DTessBaseGet(NULL, &m_sBaseTessData);
+	A3DTess3DGet(A3D_NULL_HANDLE, &m_sTessData);
+	A3DTessBaseGet(A3D_NULL_HANDLE, &m_sBaseTessData);
 }
 
 A3DStatus A3DTessDataConnector::Traverse(A3DVisitorContainer* psVisitor)
@@ -1383,8 +1383,8 @@ A3DWireTessDataConnector::A3DWireTessDataConnector(const A3DTess3DWire* psTessWi
 
 A3DWireTessDataConnector::~A3DWireTessDataConnector()
 {
-	A3DTess3DWireGet(NULL, &m_sWire3DTessData);
-	A3DTessBaseGet(NULL, &m_sBaseTessData);
+	A3DTess3DWireGet(A3D_NULL_HANDLE, &m_sWire3DTessData);
+	A3DTessBaseGet(A3D_NULL_HANDLE, &m_sBaseTessData);
 }
 
 

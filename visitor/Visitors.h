@@ -1,6 +1,6 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 *
-* Copyright (c) 2010 - 2023 by Tech Soft 3D, Inc.
+* Copyright (c) 2010 - 2026 by Tech Soft 3D, Inc.
 * The information contained herein is confidential and proprietary to Tech Soft 3D, Inc., and considered a trade secret
 * as defined under civil and criminal statutes. Tech Soft 3D shall pursue its civil and criminal remedies in the event
 * of unauthorized use or misappropriation of its trade secrets. Use of this information by anyone other than authorized 
@@ -171,11 +171,11 @@ public :
 	virtual A3DStatus visitEnter(const A3DFRMParameterConnector&  /*sConnector*/) { return A3D_SUCCESS; }
 	virtual A3DStatus visitLeave(const A3DFRMParameterConnector&  /*sConnector*/) { return A3D_SUCCESS; }
 
-	virtual A3DStatus visitEnter(const A3DFRMFeatureTreeConnector&  /*sConnector*/) { return A3D_SUCCESS; }
-	virtual A3DStatus visitLeave(const A3DFRMFeatureTreeConnector&  /*sConnector*/) { return A3D_SUCCESS; }
+	virtual A3DStatus visitEnter(const A3DFRMTreeConnector&  /*sConnector*/) { return A3D_SUCCESS; }
+	virtual A3DStatus visitLeave(const A3DFRMTreeConnector&  /*sConnector*/) { return A3D_SUCCESS; }
 
-	virtual A3DStatus visitEnter(const A3DFRMFeatureLinkedItemConnector&  /*sConnector*/) { return A3D_SUCCESS; }
-	virtual A3DStatus visitLeave(const A3DFRMFeatureLinkedItemConnector&  /*sConnector*/) { return A3D_SUCCESS; }
+	virtual A3DStatus visitEnter(const A3DFRMLinkedItemConnector&  /*sConnector*/) { return A3D_SUCCESS; }
+	virtual A3DStatus visitLeave(const A3DFRMLinkedItemConnector&  /*sConnector*/) { return A3D_SUCCESS; }
 #endif
 };
  

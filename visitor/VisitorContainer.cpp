@@ -1,6 +1,6 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 *
-* Copyright (c) 2010 - 2023 by Tech Soft 3D, Inc.
+* Copyright (c) 2010 - 2026 by Tech Soft 3D, Inc.
 * The information contained herein is confidential and proprietary to Tech Soft 3D, Inc., and considered a trade secret
 * as defined under civil and criminal statutes. Tech Soft 3D shall pursue its civil and criminal remedies in the event
 * of unauthorized use or misappropriation of its trade secrets. Use of this information by anyone other than authorized
@@ -103,7 +103,7 @@ A3DStatus A3DVisitorContainer::visitEnter(const A3DProductOccurrenceConnector& s
 			A3DMiscReferenceOnTopologyGet (pEntityRef, &sTopoRefData);
 			sEntityManager.m_pA3DEntityRef = sTopoRefData.m_pBrepData;
 			sEntityManager.m_bRefOnTopoItem = true;
-			A3DMiscReferenceOnTopologyGet (NULL, &sTopoRefData);
+			A3DMiscReferenceOnTopologyGet(A3D_NULL_HANDLE, &sTopoRefData);
 		}
 		else if(sType ==  kA3DTypeMiscReferenceOnCsysItem)
 		{
@@ -111,12 +111,12 @@ A3DStatus A3DVisitorContainer::visitEnter(const A3DProductOccurrenceConnector& s
 			A3D_INITIALIZE_DATA(A3DMiscReferenceOnCsysItemData, sA3DMiscReferenceOnCSYSITemData);
 			A3DMiscReferenceOnCsysItemGet (pEntityRef, &sA3DMiscReferenceOnCSYSITemData);
 			sEntityManager.m_pA3DEntityRef = sA3DMiscReferenceOnCSYSITemData.m_pCoordinateSystem;
-			A3DMiscReferenceOnCsysItemGet (NULL, &sA3DMiscReferenceOnCSYSITemData);
+			A3DMiscReferenceOnCsysItemGet(A3D_NULL_HANDLE, &sA3DMiscReferenceOnCSYSITemData);
 		}
 		else
 			sEntityManager.m_pA3DEntityRef = sMiscRefData.m_pEntity;
 
-		A3DMiscEntityReferenceGet (NULL, &sMiscRefData);
+		A3DMiscEntityReferenceGet(A3D_NULL_HANDLE, &sMiscRefData);
 
 		m_asStepEntityRefManager.push_back(sEntityManager);
 	}
@@ -174,7 +174,7 @@ A3DStatus A3DVisitorContainer::visitLeave(const A3DProductOccurrenceConnector& s
 		m_asStepEntityRefManager.pop_back();
 	}
 
-	if (m_psActivatedView != NULL)
+	if (m_psActivatedView != A3D_NULL_HANDLE)
 	{
 		A3DUns32 uNbView = sConnector.m_sProductOccurrenceData.m_uiViewsSize;
 		for (uI = 0; uI < uNbView; uI++)
@@ -305,8 +305,8 @@ VISITLEAVE
 A3DVisitorContainer::A3DVisitorContainer(unsigned int uFlagElementToconnect)
 :	A3DVisitor("Container"),
 	m_pTreeVisitor(NULL),
-	m_pCurrentPOFather(NULL),
-	m_psActivatedView(NULL),
+	m_pCurrentPOFather(A3D_NULL_HANDLE),
+	m_psActivatedView(A3D_NULL_HANDLE),
 	m_bTraverseActivatedViewOnly(true),
 	m_uiCurrentLevel(0),
 	m_uFlagElementToConnect(uFlagElementToconnect),
@@ -368,7 +368,7 @@ A3DVisitorContainer::A3DVisitorContainer(unsigned int uFlagElementToconnect)
 
 A3DStatus A3DVisitorContainer::visitEnter(const A3DMkpViewConnector& sConnector)
 {
-	if ((m_psActivatedView == NULL) || (m_psActivatedView != sConnector.GetA3DEntity()))
+	if ((m_psActivatedView == A3D_NULL_HANDLE) || (m_psActivatedView != sConnector.GetA3DEntity()))
 	{
 		if (!m_bTraverseActivatedViewOnly)
 		{
@@ -412,7 +412,7 @@ A3DStatus A3DVisitorContainer::visitEnter(const A3DMkpViewConnector& sConnector)
 			A3DMiscReferenceOnTopologyGet (sMiscRefData.m_pEntity, &sTopoRefData);
 			sViewLinkedItemManager.m_pA3DEntityRef = sTopoRefData.m_pBrepData;
 			sViewLinkedItemManager.m_bRefOnTopoItem = true;
-			A3DMiscReferenceOnTopologyGet (NULL, &sTopoRefData);
+			A3DMiscReferenceOnTopologyGet(A3D_NULL_HANDLE, &sTopoRefData);
 		}
 		else if (sType == kA3DTypeMiscReferenceOnCsysItem)
 		{
@@ -420,12 +420,12 @@ A3DStatus A3DVisitorContainer::visitEnter(const A3DMkpViewConnector& sConnector)
 			A3D_INITIALIZE_DATA(A3DMiscReferenceOnCsysItemData, sA3DMiscReferenceOnCSYSITemData);
 			A3DMiscReferenceOnCsysItemGet (sMiscRefData.m_pEntity, &sA3DMiscReferenceOnCSYSITemData);
 			sViewLinkedItemManager.m_pA3DEntityRef = sA3DMiscReferenceOnCSYSITemData.m_pCoordinateSystem;
-			A3DMiscReferenceOnCsysItemGet (NULL, &sA3DMiscReferenceOnCSYSITemData);
+			A3DMiscReferenceOnCsysItemGet(A3D_NULL_HANDLE, &sA3DMiscReferenceOnCSYSITemData);
 		}
 		else
 			sViewLinkedItemManager.m_pA3DEntityRef = sMiscRefData.m_pEntity;
 
-		A3DMiscEntityReferenceGet (NULL, &sMiscRefData);
+		A3DMiscEntityReferenceGet(A3D_NULL_HANDLE, &sMiscRefData);
 
 		m_asViewLinkedItemManager.push_back(sViewLinkedItemManager);
 	}
@@ -435,7 +435,7 @@ A3DStatus A3DVisitorContainer::visitEnter(const A3DMkpViewConnector& sConnector)
 
 A3DStatus A3DVisitorContainer::visitLeave(const A3DMkpViewConnector& sConnector)
 {
-	if ((m_psActivatedView == NULL) || (m_psActivatedView != sConnector.GetA3DEntity()))
+	if ((m_psActivatedView == A3D_NULL_HANDLE) || (m_psActivatedView != sConnector.GetA3DEntity()))
 	{
 		if (!m_bTraverseActivatedViewOnly)
 			VISITLEAVE;
@@ -483,13 +483,13 @@ void* A3DVisitorContainer::FindInMap(const A3DEntity* pA3DEntity)
 	map<const A3DEntity*, void*>::iterator my_mapIter;
 	my_mapIter = m_apA3DEntityYourEntityMap.find(pA3DEntity);
 	if(my_mapIter == m_apA3DEntityYourEntityMap.end())
-		return NULL;
+		return A3D_NULL_HANDLE;
 	return my_mapIter->second;
 }
 
 void A3DVisitorContainer::SetInMap(const A3DEntity* pA3DEntity, void* pYourEntity)
 {
-	m_apA3DEntityYourEntityMap.insert(std::pair<const A3DEntity*, void*>(pA3DEntity, pYourEntity));
+	m_apA3DEntityYourEntityMap.emplace(pA3DEntity, pYourEntity);
 }
 
 void A3DVisitorContainer::RemoveFromMap(const A3DEntity* pA3DEntity)
@@ -532,7 +532,7 @@ void A3DVisitorContainer::ActivateEntityReference( A3DEntity const* pEntity )
 	{
 		A3DViewLinkedItemManager *pCurManager = &m_asViewLinkedItemManager[uI];
 		if (pCurManager->m_pA3DEntityRef == pEntity &&
-			(	pCurManager->m_POOwner == NULL ||
+			(	pCurManager->m_POOwner == A3D_NULL_HANDLE ||
 			pCurManager->m_POOwner == pEntity ||
 			pCurManager->m_POOwner == m_pCurrentPOFather
 			)
@@ -561,7 +561,7 @@ void A3DVisitorContainer::DeactivateEntityReference( A3DEntity const* pEntity )
 	{
 		A3DViewLinkedItemManager *pCurManager = &m_asViewLinkedItemManager[uI];
 		if (pCurManager->m_pA3DEntityRef == pEntity &&
-			(	pCurManager->m_POOwner == NULL ||
+			(	pCurManager->m_POOwner == A3D_NULL_HANDLE ||
 			pCurManager->m_POOwner == pEntity ||
 			pCurManager->m_POOwner == m_pCurrentPOFather
 			)
@@ -579,7 +579,7 @@ A3DStepEntityRefManager const* A3DVisitorContainer::GetActiveStepEntityRefManage
 	for(uI = 0; uI < uNbPushStepEntityRef; uI++)
 	{
 		A3DStepEntityRefManager const * psCurManager = &m_asStepEntityRefManager[uI];
-		if (psCurManager->m_uiPushLevel!=~0U && (pEntity==NULL || psCurManager->m_pA3DEntityRef==pEntity))
+		if (psCurManager->m_uiPushLevel!=~0U && (pEntity==A3D_NULL_HANDLE || psCurManager->m_pA3DEntityRef==pEntity))
 		{
 			if (!psActivated)
 				psActivated = psCurManager;
@@ -598,7 +598,7 @@ A3DViewLinkedItemManager const* A3DVisitorContainer::GetActiveViewLinkedItemMana
 	for (uI = 0; uI < uNbPushViewMarkupLinkedItem; uI++)
 	{
 		A3DViewLinkedItemManager const * psCurManager = &m_asViewLinkedItemManager[uI];
-		if (psCurManager->m_uiPushLevel!=~0U  && (pEntity==NULL || psCurManager->m_pA3DEntityRef==pEntity))
+		if (psCurManager->m_uiPushLevel!=~0U  && (pEntity==A3D_NULL_HANDLE || psCurManager->m_pA3DEntityRef==pEntity))
 		{
 			if (!psActivated)
 				psActivated = psCurManager;
@@ -619,13 +619,13 @@ A3DStatus A3DVisitorContainer::visitEnter(const A3DFRMParameterConnector& sConne
 VISITENTER
 A3DStatus A3DVisitorContainer::visitLeave(const A3DFRMParameterConnector& sConnector)
 VISITLEAVE
-A3DStatus A3DVisitorContainer::visitEnter(const A3DFRMFeatureTreeConnector& sConnector)
+A3DStatus A3DVisitorContainer::visitEnter(const A3DFRMTreeConnector& sConnector)
 VISITENTER
-A3DStatus A3DVisitorContainer::visitLeave(const A3DFRMFeatureTreeConnector& sConnector)
+A3DStatus A3DVisitorContainer::visitLeave(const A3DFRMTreeConnector& sConnector)
 VISITLEAVE
-A3DStatus A3DVisitorContainer::visitEnter(const A3DFRMFeatureLinkedItemConnector& sConnector)
+A3DStatus A3DVisitorContainer::visitEnter(const A3DFRMLinkedItemConnector& sConnector)
 VISITENTER
-A3DStatus A3DVisitorContainer::visitLeave(const A3DFRMFeatureLinkedItemConnector& sConnector)
+A3DStatus A3DVisitorContainer::visitLeave(const A3DFRMLinkedItemConnector& sConnector)
 VISITLEAVE
 
 #endif

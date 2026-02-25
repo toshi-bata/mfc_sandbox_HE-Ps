@@ -1,6 +1,6 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 *
-* Copyright (c) 2010 - 2023 by Tech Soft 3D, Inc.
+* Copyright (c) 2010 - 2026 by Tech Soft 3D, Inc.
 * The information contained herein is confidential and proprietary to Tech Soft 3D, Inc., and considered a trade secret
 * as defined under civil and criminal statutes. Tech Soft 3D shall pursue its civil and criminal remedies in the event
 * of unauthorized use or misappropriation of its trade secrets. Use of this information by anyone other than authorized 
@@ -15,7 +15,7 @@
 
 A3DVisitorColorMaterials::A3DVisitorColorMaterials(A3DVisitorContainer* psContainer)
 :	A3DVisitor("CascadedAttribute", psContainer),
-	m_pCurrentRi(NULL)
+	m_pCurrentRi(A3D_NULL_HANDLE)
 {
 }
 
@@ -25,7 +25,7 @@ A3DVisitorColorMaterials::~A3DVisitorColorMaterials()
 	std::vector<A3DMiscCascadedAttributes*>::iterator itEnd = m_apsCascadedAttribute.end();
 	for(; itCur < itEnd; ++itCur)
 	{
-		A3DMiscCascadedAttributesDelete(*itCur);
+		A3DEntityDelete(*itCur);
 	}
 }
 
@@ -54,7 +54,7 @@ A3DStatus A3DVisitorColorMaterials::popCascadedAttribute(/*const A3DConnector& s
 {
 	if(m_apsCascadedAttribute.size() > 0)
 	{
-    A3DMiscCascadedAttributesDelete(m_apsCascadedAttribute[m_apsCascadedAttribute.size() - 1]);
+    	A3DEntityDelete(m_apsCascadedAttribute[m_apsCascadedAttribute.size() - 1]);
 		m_apsCascadedAttribute.pop_back();
 	}
 
@@ -135,7 +135,7 @@ A3DStatus A3DVisitorColorMaterials::visitEnter(const A3DRiConnector& sRi)
 A3DStatus A3DVisitorColorMaterials::visitLeave(const A3DRiConnector& /*sRi*/)
 {
 	A3DStatus iRet = A3D_SUCCESS;
-	m_pCurrentRi = NULL;
+	m_pCurrentRi = A3D_NULL_HANDLE;
 	CHECK_RET(popCascadedAttribute());
 	return A3D_SUCCESS;
 }
@@ -180,7 +180,7 @@ A3DMiscCascadedAttributes* A3DVisitorColorMaterials::GetLastCascadedAttributes()
 {
 	size_t iSize = m_apsCascadedAttribute.size();
 	if(iSize == 0)
-		return NULL;
+		return A3D_NULL_HANDLE;
 	return m_apsCascadedAttribute[iSize-1];
 }
 
@@ -195,14 +195,14 @@ A3DStatus A3DVisitorColorMaterials::GetColorMaterialConnector( ColorMaterialsCon
 
 	if(!bUseInstances)
 	{
-		A3DMiscEntityReference* pMER = NULL;
-		A3DStepEntityRefManager const * pSERM = m_psContainer->GetActiveStepEntityRefManager(NULL);
+		A3DMiscEntityReference* pMER = A3D_NULL_HANDLE;
+		A3DStepEntityRefManager const * pSERM = m_psContainer->GetActiveStepEntityRefManager(A3D_NULL_HANDLE);
 		if (pSERM)
 		{
 			pMER = pSERM->m_pStepEntityRef;
 		}
 
-		A3DViewLinkedItemManager const* pVLIM = m_psContainer->GetActiveViewLinkedItemManager(NULL);
+		A3DViewLinkedItemManager const* pVLIM = m_psContainer->GetActiveViewLinkedItemManager(A3D_NULL_HANDLE);
 		if (pVLIM)
 		{
 			pMER = pVLIM->m_pMarkupLinkedItem;
@@ -239,7 +239,7 @@ A3DStatus A3DVisitorColorMaterials::GetColorMaterialConnector( ColorMaterialsCon
 								A3D_INITIALIZE_DATA(	A3DTopoBrepDataData,sTopoBrepDataData);
 								A3DTopoBrepDataGet(pBrepData,&sTopoBrepDataData);
 
-								A3DTopoBrepDataGet(NULL,&sTopoBrepDataData);
+								A3DTopoBrepDataGet(A3D_NULL_HANDLE, &sTopoBrepDataData);
 
 								break;
 							}
@@ -263,19 +263,19 @@ A3DStatus A3DVisitorColorMaterials::GetColorMaterialConnector( ColorMaterialsCon
 						A3DEntityGetType( sSERData.m_pEntity, &eLType);
 
 						//A3DGraphStyleData
-						A3DMiscCascadedAttributes* pAttr = NULL;
+						A3DMiscCascadedAttributes* pAttr = A3D_NULL_HANDLE;
 						A3DMiscCascadedAttributesCreate(&pAttr);
 						iErr = A3DMiscCascadedAttributesPush(pAttr, pMER, pCurrent);
 						A3DMiscCascadedAttributesData sCAData;
 						A3D_INITIALIZE_DATA(A3DMiscCascadedAttributesData, sCAData);
 						iErr = A3DMiscCascadedAttributesGet(pAttr, &sCAData);
 						rsColorConnector = ColorMaterialsConnector(pAttr);
-						A3DMiscCascadedAttributesDelete (pAttr);
+						A3DEntityDelete(pAttr);
 					}
 
-					A3DMiscReferenceOnTopologyGet(NULL,&sTopoRefData);
+					A3DMiscReferenceOnTopologyGet(A3D_NULL_HANDLE, &sTopoRefData);
 				}
-				A3DMiscEntityReferenceGet( NULL, &sSERData);
+				A3DMiscEntityReferenceGet(A3D_NULL_HANDLE, &sSERData);
 			}
 		}
 		else

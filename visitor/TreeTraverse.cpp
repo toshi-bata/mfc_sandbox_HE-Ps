@@ -1,6 +1,6 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 *
-* Copyright (c) 2010 - 2023 by Tech Soft 3D, Inc.
+* Copyright (c) 2010 - 2026 by Tech Soft 3D, Inc.
 * The information contained herein is confidential and proprietary to Tech Soft 3D, Inc., and considered a trade secret
 * as defined under civil and criminal statutes. Tech Soft 3D shall pursue its civil and criminal remedies in the event
 * of unauthorized use or misappropriation of its trade secrets. Use of this information by anyone other than authorized 
@@ -37,7 +37,7 @@ A3DStatus A3DModelFileConnector::Traverse(A3DVisitorContainer* psVisitor, bool b
 	
 	for (uI = 0; uI < m_sModelFileData.m_uiPOccurrencesSize; uI++)
 	{
-		psVisitor->SetCurrentPoFather(NULL);
+		psVisitor->SetCurrentPoFather(A3D_NULL_HANDLE);
 		A3DProductOccurrenceConnector sTreeConnector(m_sModelFileData.m_ppPOccurrences[uI]);
 		if(sTreeConnector.TraversePO(m_sModelFileData.m_ppPOccurrences[uI], psVisitor, bVisitPrototype)!= A3D_SUCCESS)
 			return A3D_ERROR;
@@ -58,12 +58,12 @@ A3DProductOccurrenceConnector::A3DProductOccurrenceConnector(const A3DAsmProduct
 	m_pProductOccurrenceDataSLW(NULL),
 	m_pProductOccurrenceDataCat(NULL),
 	m_pProductOccurrenceDataCV5(NULL),
-	m_pProductOccurrenceDataUg(NULL),
-	m_pProductOccurrenceDataProe(NULL),
+	m_pProductOccurrenceDataNX(NULL),
+	m_pProductOccurrenceDataCreo(NULL),
 	m_pProductOccurrenceDataInv(NULL),
 	m_pProductOccurrenceDataJT(NULL)
 {
-	m_pFather = NULL;
+	m_pFather = A3D_NULL_HANDLE;
 	m_bIsInstanciated = false;
 	A3D_INITIALIZE_DATA(A3DAsmProductOccurrenceData, m_sProductOccurrenceData);
 	A3DAsmProductOccurrenceGet (pProductOccurrence, &m_sProductOccurrenceData);
@@ -94,19 +94,19 @@ A3DProductOccurrenceConnector::A3DProductOccurrenceConnector(const A3DAsmProduct
 			break;
 		}
 
-		case kA3DModellerUnigraphics:
+		case kA3DModellerNX:
 		{
-			m_pProductOccurrenceDataUg = (A3DAsmProductOccurrenceDataUg*)malloc(sizeof(A3DAsmProductOccurrenceDataUg));
-			A3D_INITIALIZE_DATA(A3DAsmProductOccurrenceDataUg, *m_pProductOccurrenceDataUg);
-			A3DAsmProductOccurrenceGetUg (pProductOccurrence, m_pProductOccurrenceDataUg);
+			m_pProductOccurrenceDataNX = (A3DAsmProductOccurrenceDataNX*)malloc(sizeof(A3DAsmProductOccurrenceDataNX));
+			A3D_INITIALIZE_DATA(A3DAsmProductOccurrenceDataNX, *m_pProductOccurrenceDataNX);
+			A3DAsmProductOccurrenceGetNX (pProductOccurrence, m_pProductOccurrenceDataNX);
 			break;
 		}
 
-		case kA3DModellerProE:
+		case kA3DModellerCreo:
 		{
-			m_pProductOccurrenceDataProe = (A3DAsmProductOccurrenceDataProe*)malloc(sizeof(A3DAsmProductOccurrenceDataProe));
-			A3D_INITIALIZE_DATA(A3DAsmProductOccurrenceDataProe, *m_pProductOccurrenceDataProe);
-			A3DAsmProductOccurrenceGetProe (pProductOccurrence, m_pProductOccurrenceDataProe);
+			m_pProductOccurrenceDataCreo = (A3DAsmProductOccurrenceDataCreo*)malloc(sizeof(A3DAsmProductOccurrenceDataCreo));
+			A3D_INITIALIZE_DATA(A3DAsmProductOccurrenceDataCreo, *m_pProductOccurrenceDataCreo);
+			A3DAsmProductOccurrenceGetCreo (pProductOccurrence, m_pProductOccurrenceDataCreo);
 			break;
 		}
 
@@ -135,46 +135,46 @@ A3DProductOccurrenceConnector::A3DProductOccurrenceConnector(const A3DAsmProduct
 
 A3DProductOccurrenceConnector::~A3DProductOccurrenceConnector()
 {
-	A3DAsmProductOccurrenceGet (NULL, &m_sProductOccurrenceData);
+	A3DAsmProductOccurrenceGet(A3D_NULL_HANDLE, &m_sProductOccurrenceData);
 	if (m_pProductOccurrenceDataSLW)
 	{
-		A3DAsmProductOccurrenceGetSLW (NULL, m_pProductOccurrenceDataSLW);
+		A3DAsmProductOccurrenceGetSLW(A3D_NULL_HANDLE, m_pProductOccurrenceDataSLW);
 		free(m_pProductOccurrenceDataSLW);
 	}
 
 	if (m_pProductOccurrenceDataCat)
 	{
-		A3DAsmProductOccurrenceGetCat (NULL, m_pProductOccurrenceDataCat);
+		A3DAsmProductOccurrenceGetCat(A3D_NULL_HANDLE, m_pProductOccurrenceDataCat);
 		free(m_pProductOccurrenceDataCat);
 	}
 
 	if (m_pProductOccurrenceDataCV5)
 	{
-		A3DAsmProductOccurrenceGetCV5 (NULL, m_pProductOccurrenceDataCV5);
+		A3DAsmProductOccurrenceGetCV5(A3D_NULL_HANDLE, m_pProductOccurrenceDataCV5);
 		free(m_pProductOccurrenceDataCV5);
 	}
 
-	if (m_pProductOccurrenceDataUg)
+	if (m_pProductOccurrenceDataNX)
 	{
-		A3DAsmProductOccurrenceGetUg (NULL, m_pProductOccurrenceDataUg);
-		free(m_pProductOccurrenceDataUg);
+		A3DAsmProductOccurrenceGetNX(A3D_NULL_HANDLE, m_pProductOccurrenceDataNX);
+		free(m_pProductOccurrenceDataNX);
 	}
 
-	if (m_pProductOccurrenceDataProe)
+	if (m_pProductOccurrenceDataCreo)
 	{
-		A3DAsmProductOccurrenceGetProe (NULL, m_pProductOccurrenceDataProe);
-		free(m_pProductOccurrenceDataProe);
+		A3DAsmProductOccurrenceGetCreo(A3D_NULL_HANDLE, m_pProductOccurrenceDataCreo);
+		free(m_pProductOccurrenceDataCreo);
 	}
 
 	if (m_pProductOccurrenceDataInv)
 	{
-		A3DAsmProductOccurrenceGetInv (NULL, m_pProductOccurrenceDataInv);
+		A3DAsmProductOccurrenceGetInv(A3D_NULL_HANDLE, m_pProductOccurrenceDataInv);
 		free(m_pProductOccurrenceDataInv);
 	}
 
 	if (m_pProductOccurrenceDataJT)
 	{
-		A3DAsmProductOccurrenceGetJT (NULL, m_pProductOccurrenceDataJT);
+		A3DAsmProductOccurrenceGetJT(A3D_NULL_HANDLE, m_pProductOccurrenceDataJT);
 		free(m_pProductOccurrenceDataJT);
 	}
 }
@@ -198,7 +198,7 @@ A3DStatus A3DProductOccurrenceConnector::TraversePO(const A3DAsmProductOccurrenc
 			A3DMkpAnnotationEntityConnector sAnnotationEntityConnector(m_sProductOccurrenceData.m_ppAnnotations[uI]);
 			sAnnotationEntityConnector.TraverseAnnotationEntity(psVisitor);
 		}
-		if (!uNbAnnotationEntity && m_sProductOccurrenceData.m_pPrototype != NULL)
+		if (!uNbAnnotationEntity && m_sProductOccurrenceData.m_pPrototype != A3D_NULL_HANDLE)
 		{
 			A3DAsmProductOccurrence* pProductPrototype = m_sProductOccurrenceData.m_pPrototype;
 			while (pProductPrototype)
@@ -214,7 +214,7 @@ A3DStatus A3DProductOccurrenceConnector::TraversePO(const A3DAsmProductOccurrenc
 				}
 
 				pProductPrototype = sProductPrototypeData.m_pPrototype;
-				CHECK_RET(A3DAsmProductOccurrenceGet (NULL, &sProductPrototypeData));
+				CHECK_RET(A3DAsmProductOccurrenceGet(A3D_NULL_HANDLE, &sProductPrototypeData));
 			}
 		}
 	}
@@ -224,7 +224,7 @@ A3DStatus A3DProductOccurrenceConnector::TraversePO(const A3DAsmProductOccurrenc
 	if (psVisitor->GetFlagElementToConnect() & CONNECT_VIEWS)
 	{
 		A3DUns32 uNbView = m_sProductOccurrenceData.m_uiViewsSize;
-		if (!uNbView && m_sProductOccurrenceData.m_pPrototype != NULL)
+		if (!uNbView && m_sProductOccurrenceData.m_pPrototype != A3D_NULL_HANDLE)
 		{
 			A3DAsmProductOccurrence* pProductPrototype = m_sProductOccurrenceData.m_pPrototype;
 			while (pProductPrototype)
@@ -239,7 +239,7 @@ A3DStatus A3DProductOccurrenceConnector::TraversePO(const A3DAsmProductOccurrenc
 					sMkpViewConnector.TraverseView(psVisitor);
 				}
 				pProductPrototype = sProductPrototypeData.m_pPrototype;
-				CHECK_RET(A3DAsmProductOccurrenceGet (NULL, &sProductPrototypeData));
+				CHECK_RET(A3DAsmProductOccurrenceGet(A3D_NULL_HANDLE, &sProductPrototypeData));
 			}
 		}
 		else if (uNbView)
@@ -258,7 +258,7 @@ A3DStatus A3DProductOccurrenceConnector::TraversePO(const A3DAsmProductOccurrenc
 	if (psVisitor->GetFlagElementToConnect() & CONNECT_FEATURE)
 	{
 		A3DUns32 uNbFeatureBasedEntity = m_sProductOccurrenceData.m_uiFeatureBasedEntitiesSize;
-		if (!uNbFeatureBasedEntity && m_sProductOccurrenceData.m_pPrototype != NULL)
+		if (!uNbFeatureBasedEntity && m_sProductOccurrenceData.m_pPrototype != A3D_NULL_HANDLE)
 		{
 			A3DAsmProductOccurrence* pProductPrototype = m_sProductOccurrenceData.m_pPrototype;
 			while (pProductPrototype)
@@ -269,24 +269,24 @@ A3DStatus A3DProductOccurrenceConnector::TraversePO(const A3DAsmProductOccurrenc
 				uNbFeatureBasedEntity = sProductPrototypeData.m_uiFeatureBasedEntitiesSize;
 				for (uI = 0; uI < uNbFeatureBasedEntity; uI++)
 				{
-					A3DFRMFeatureTreeConnector sConnector(sProductPrototypeData.m_ppFeatureBasedEntities[uI]);
+					A3DFRMTreeConnector sConnector(sProductPrototypeData.m_ppFeatureBasedEntities[uI]);
 					sConnector.TraverseFeatureTree(psVisitor);
 				}
 				pProductPrototype = sProductPrototypeData.m_pPrototype;
-				CHECK_RET(A3DAsmProductOccurrenceGet(NULL, &sProductPrototypeData));
+				CHECK_RET(A3DAsmProductOccurrenceGet(A3D_NULL_HANDLE, &sProductPrototypeData));
 			}
 		}
 		else if (uNbFeatureBasedEntity)
 		{
 			for (uI = 0; uI < uNbFeatureBasedEntity; uI++)
 			{
-				A3DFRMFeatureTreeConnector sConnector(m_sProductOccurrenceData.m_ppFeatureBasedEntities[uI]);
+				A3DFRMTreeConnector sConnector(m_sProductOccurrenceData.m_ppFeatureBasedEntities[uI]);
 				sConnector.TraverseFeatureTree(psVisitor);
 			}
 		}
 	}
 #endif
-	A3DAsmPartDefinition* pPart = NULL;
+	A3DAsmPartDefinition* pPart = A3D_NULL_HANDLE;
 	if(!bVisitPrototype)
 	{
 		CHECK_RET(GetPart(pPart));
@@ -304,11 +304,11 @@ A3DStatus A3DProductOccurrenceConnector::TraversePO(const A3DAsmProductOccurrenc
 		sPartConnector.SetProductOccurrenceFather(pOccurrence);
 
 		// if we haven't found the part in the map or if we traverse the instance
-		if(pEntityInMap==NULL || psVisitor->TraverseInstances())
+		if(pEntityInMap==A3D_NULL_HANDLE || psVisitor->TraverseInstances())
 		{
 			CHECK_RET(sPartConnector.TraversePart(psVisitor));
 		}
-		psVisitor->SetCurrentPoFather(NULL);
+		psVisitor->SetCurrentPoFather(A3D_NULL_HANDLE);
 	}
 	std::vector<A3DAsmProductOccurrence*> apSons;
 	if(!bVisitPrototype)
@@ -319,7 +319,7 @@ A3DStatus A3DProductOccurrenceConnector::TraversePO(const A3DAsmProductOccurrenc
 	{
 		if(m_sProductOccurrenceData.m_pPrototype)
 		{
-			if(psVisitor->FindInMap(m_sProductOccurrenceData.m_pPrototype) == NULL)
+			if(psVisitor->FindInMap(m_sProductOccurrenceData.m_pPrototype) == A3D_NULL_HANDLE)
 			{
 				psVisitor->SetInMap(m_sProductOccurrenceData.m_pPrototype, m_sProductOccurrenceData.m_pPrototype);	
 				A3DProductOccurrenceConnector sPrototypeConnector(m_sProductOccurrenceData.m_pPrototype);
@@ -329,7 +329,7 @@ A3DStatus A3DProductOccurrenceConnector::TraversePO(const A3DAsmProductOccurrenc
 		}
 		if(m_sProductOccurrenceData.m_pExternalData)
 		{
-			if(psVisitor->FindInMap(m_sProductOccurrenceData.m_pExternalData) == NULL)
+			if(psVisitor->FindInMap(m_sProductOccurrenceData.m_pExternalData) == A3D_NULL_HANDLE)
 			{
 				psVisitor->SetInMap(m_sProductOccurrenceData.m_pExternalData, m_sProductOccurrenceData.m_pExternalData);	
 				A3DProductOccurrenceConnector sExternalConnector(m_sProductOccurrenceData.m_pExternalData);
@@ -353,7 +353,7 @@ A3DStatus A3DProductOccurrenceConnector::TraversePO(const A3DAsmProductOccurrenc
 		sPoConnector.SetProductOccurrenceFather(this->GetA3DEntity());
 		psVisitor->SetCurrentPoFather(pOccurrence);
 		CHECK_RET(sPoConnector.TraversePO(apSons[uI], psVisitor, bVisitPrototype));
-		psVisitor->SetCurrentPoFather(NULL);
+		psVisitor->SetCurrentPoFather(A3D_NULL_HANDLE);
 	}
 	CHECK_RET(psVisitor->visitLeave(*this));
 
@@ -381,12 +381,12 @@ A3DStatus A3DProductOccurrenceConnector::CollectSons(
 
 		//TODO : Management of prototype with external assembly  
 		//Not sur this can append. we don't have test files for validation.
-		/*if (pPrototype==NULL && sPrototypeData.m_pExternalData)
+		/*if (pPrototype==A3D_NULL_HANDLE && sPrototypeData.m_pExternalData)
 		{
 			pPrototype=sPrototypeData.m_pExternalData;
 		}*/
 
-		CHECK_RET(A3DAsmProductOccurrenceGet(NULL, &sPrototypeData));
+		CHECK_RET(A3DAsmProductOccurrenceGet(A3D_NULL_HANDLE, &sPrototypeData));
 	}
 
 	unsigned uI;
@@ -411,7 +411,7 @@ A3DStatus A3DProductOccurrenceConnector::CollectSons(
 A3DStatus A3DProductOccurrenceConnector::GetPart(
 	A3DAsmPartDefinition*& pPart) const
 {	
-	pPart = NULL;
+	pPart = A3D_NULL_HANDLE;
 	A3DStatus iRet = A3D_SUCCESS;;
 	if(m_sProductOccurrenceData.m_pPart)
 	{
@@ -430,7 +430,7 @@ A3DStatus A3DProductOccurrenceConnector::GetPart(
 		{
 			// take current part and return it
 			pPart =  sProductPrototypeData.m_pPart;
-			CHECK_RET(A3DAsmProductOccurrenceGet(NULL, &sProductPrototypeData));
+			CHECK_RET(A3DAsmProductOccurrenceGet(A3D_NULL_HANDLE, &sProductPrototypeData));
 			return A3D_SUCCESS;
 		}
 		else if (sProductPrototypeData.m_pPrototype)
@@ -446,10 +446,10 @@ A3DStatus A3DProductOccurrenceConnector::GetPart(
 		else
 		{
 			// end recursion
-			pProductPrototype = NULL;
+			pProductPrototype = A3D_NULL_HANDLE;
 		}
 
-		CHECK_RET(A3DAsmProductOccurrenceGet(NULL, &sProductPrototypeData));
+		CHECK_RET(A3DAsmProductOccurrenceGet(A3D_NULL_HANDLE, &sProductPrototypeData));
 	}
 
 	if(m_sProductOccurrenceData.m_uiPOccurrencesSize == 0)
@@ -569,7 +569,7 @@ A3DStatus A3DRiBrepModelConnector::TraverseRiBrepModel(A3DVisitorContainer*  psV
 		CHECK_RET(A3DRiRepresentationItemGet (this->GetA3DEntity(), &sRidata));
 		A3DTessDataConnector sTessConnector(static_cast<A3DTess3D const *>(sRidata.m_pTessBase));
 		CHECK_RET(sTessConnector.Traverse(psVisitor));
-		CHECK_RET(A3DRiRepresentationItemGet (NULL, &sRidata));
+		CHECK_RET(A3DRiRepresentationItemGet(A3D_NULL_HANDLE, &sRidata));
 	}
 #endif
 
@@ -615,7 +615,7 @@ A3DStatus A3DPolyRiBrepModelConnector::TraverseRiPolyBrepModel( A3DVisitorContai
 	CHECK_RET(A3DRiRepresentationItemGet(this->GetA3DEntity(), &sRiData));
 	A3DTessDataConnector sTessConnector(static_cast<A3DTess3D const *>(sRiData.m_pTessBase));
 	CHECK_RET(sTessConnector.Traverse(psVisitor));
-	CHECK_RET(A3DRiRepresentationItemGet(NULL, &sRiData));
+	CHECK_RET(A3DRiRepresentationItemGet(A3D_NULL_HANDLE, &sRiData));
 
 	CHECK_RET(psVisitor->visitLeave(*this));
 
@@ -631,7 +631,7 @@ A3DStatus A3DFRMFeatureConnector::TraverseFeature( A3DVisitorContainer* psVisito
 
 	for (uI = 0; uI < m_sData.m_uiConnectionSize; uI++)
 	{
-		A3DFRMFeatureLinkedItemConnector sFeatureLinkedItemConnector(m_sData.m_ppConnections[uI]);
+		A3DFRMLinkedItemConnector sFeatureLinkedItemConnector(m_sData.m_ppConnections[uI]);
 		sFeatureLinkedItemConnector.TraverseConnection(psVisitor);
 	}
 
@@ -648,7 +648,7 @@ A3DStatus A3DFRMFeatureConnector::TraverseFeature( A3DVisitorContainer* psVisito
 }
 
 // A3DFRMParameter
-A3DStatus A3DFRMFeatureLinkedItemConnector::TraverseConnection( A3DVisitorContainer* psVisitor ) const
+A3DStatus A3DFRMLinkedItemConnector::TraverseConnection( A3DVisitorContainer* psVisitor ) const
 {
 	A3DStatus iRet = A3D_SUCCESS;
 	CHECK_RET(psVisitor->visitEnter(*this));
@@ -677,7 +677,7 @@ A3DStatus A3DFRMParameterConnector::TraverseParameter( A3DVisitorContainer* psVi
 
 
 // FeatureTree
-A3DStatus A3DFRMFeatureTreeConnector::TraverseFeatureTree( A3DVisitorContainer* psVisitor ) const
+A3DStatus A3DFRMTreeConnector::TraverseFeatureTree( A3DVisitorContainer* psVisitor ) const
 {
 	A3DStatus iRet = A3D_SUCCESS;
 	CHECK_RET(psVisitor->visitEnter(*this));

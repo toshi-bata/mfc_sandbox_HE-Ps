@@ -1,6 +1,6 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 *
-* Copyright (c) 2010 - 2023 by Tech Soft 3D, Inc.
+* Copyright (c) 2010 - 2026 by Tech Soft 3D, Inc.
 * The information contained herein is confidential and proprietary to Tech Soft 3D, Inc., and considered a trade secret
 * as defined under civil and criminal statutes. Tech Soft 3D shall pursue its civil and criminal remedies in the event
 * of unauthorized use or misappropriation of its trade secrets. Use of this information by anyone other than authorized
@@ -83,7 +83,7 @@ A3DStatus A3DMkpAnnotationReferenceConnector::TraverseAnnotationReference(A3DVis
 A3DStatus A3DMkpAnnotationItemConnector::TraverseAnnotationItem(A3DVisitorContainer* pVisitor)
 {
 	pVisitor->visitEnter(*this);
-	if(m_sAnnotItemData.m_pMarkup == NULL)
+	if(m_sAnnotItemData.m_pMarkup == A3D_NULL_HANDLE)
 	{
 		pVisitor->visitLeave(*this);
 		return A3D_SUCCESS;
@@ -113,14 +113,14 @@ A3DStatus A3DMarkupConnector::TraverseMarkupTessellation(std::vector<A3DMarkupTe
 	CHECK_RET(A3DMarkupTessConnector::GetMarkupTessellation(sTessBaseData, &sMarkupTessData, bIsText,
 															asMarkupTessConnector, a_dParallelToScreenPMIScale));
 
-	CHECK_RET(A3DTessBaseGet(NULL, &sTessBaseData));
-	CHECK_RET(A3DTessMarkupGet(NULL, &sMarkupTessData));
+	CHECK_RET(A3DTessBaseGet(A3D_NULL_HANDLE, &sTessBaseData));
+	CHECK_RET(A3DTessMarkupGet(A3D_NULL_HANDLE, &sMarkupTessData));
 
 	unsigned int uI, uJ;
 	for(uI = 0; uI < m_sMarkupData.m_uiLeadersSize; uI++)
 	{
 		A3DMkpLeader* psLeader = m_sMarkupData.m_ppLeaders[uI];
-		if(psLeader == NULL)
+		if(psLeader == A3D_NULL_HANDLE)
 		{
 			continue;
 		}
@@ -144,9 +144,9 @@ A3DStatus A3DMarkupConnector::TraverseMarkupTessellation(std::vector<A3DMarkupTe
 		for(uJ= 0; uJ < asMarkupLeaderConnector.size(); uJ++)
 			asMarkupTessConnector.push_back(asMarkupLeaderConnector[uJ]);
 
-		CHECK_RET(A3DTessBaseGet(NULL, &sLeaderTessBaseData));
-		CHECK_RET(A3DTessMarkupGet(NULL, &sMarkupLeaderTessData));
-		CHECK_RET(A3DMkpLeaderGet(NULL, &sMarkupLeaderData));
+		CHECK_RET(A3DTessBaseGet(A3D_NULL_HANDLE, &sLeaderTessBaseData));
+		CHECK_RET(A3DTessMarkupGet(A3D_NULL_HANDLE, &sMarkupLeaderTessData));
+		CHECK_RET(A3DMkpLeaderGet(A3D_NULL_HANDLE, &sMarkupLeaderData));
 	}
 
 	return A3D_SUCCESS;

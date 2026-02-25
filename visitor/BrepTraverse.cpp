@@ -1,6 +1,6 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 *
-* Copyright (c) 2010 - 2023 by Tech Soft 3D, Inc.
+* Copyright (c) 2010 - 2026 by Tech Soft 3D, Inc.
 * The information contained herein is confidential and proprietary to Tech Soft 3D, Inc., and considered a trade secret
 * as defined under civil and criminal statutes. Tech Soft 3D shall pursue its civil and criminal remedies in the event
 * of unauthorized use or misappropriation of its trade secrets. Use of this information by anyone other than authorized 
@@ -31,7 +31,7 @@ A3DBrepDataConnector::A3DBrepDataConnector(const A3DTopoBrepData *pBrep) : A3DCo
 
 A3DBrepDataConnector::~A3DBrepDataConnector()
 {
-	A3DTopoBrepDataGet(NULL, &m_sBrepData);
+	A3DTopoBrepDataGet(A3D_NULL_HANDLE, &m_sBrepData);
 }
 
 A3DStatus A3DBrepDataConnector::Traverse(A3DVisitorContainer*  psVisitor) const
@@ -74,7 +74,7 @@ A3DConnexConnector::A3DConnexConnector(const A3DTopoConnex *pConnex) : A3DConnec
 
 A3DConnexConnector::~A3DConnexConnector()
 {
-	A3DTopoConnexGet(NULL, &m_sConnexData);
+	A3DTopoConnexGet(A3D_NULL_HANDLE, &m_sConnexData);
 }
 
 A3DStatus A3DConnexConnector::Traverse(A3DVisitorContainer*  psVisitor) const
@@ -103,7 +103,7 @@ A3DShellConnector::A3DShellConnector(const A3DTopoShell *pShell) : A3DConnector(
 
 A3DShellConnector::~A3DShellConnector()
 {
-	A3DTopoShellGet(NULL, &m_sShellData);
+	A3DTopoShellGet(A3D_NULL_HANDLE, &m_sShellData);
 }
 
 A3DStatus A3DShellConnector::Traverse(A3DVisitorContainer*  psVisitor) const
@@ -132,7 +132,7 @@ A3DFaceConnector::A3DFaceConnector(const A3DTopoFace* pFace) : A3DConnector(pFac
 
 A3DFaceConnector::~A3DFaceConnector()
 {
-	A3DTopoFaceGet(NULL, &m_sFaceData);
+	A3DTopoFaceGet(A3D_NULL_HANDLE, &m_sFaceData);
 }
 
 A3DStatus A3DFaceConnector::Traverse(A3DVisitorContainer*  psVisitor) const
@@ -161,7 +161,7 @@ A3DLoopConnector::A3DLoopConnector(const A3DTopoLoop *pLoop) : A3DConnector(pLoo
 
 A3DLoopConnector::~A3DLoopConnector()
 {
-	A3DTopoLoopGet(NULL, &m_sLoopData);
+	A3DTopoLoopGet(A3D_NULL_HANDLE, &m_sLoopData);
 }
 	
 A3DStatus A3DLoopConnector::Traverse(A3DVisitorContainer*  psVisitor) const
@@ -192,7 +192,7 @@ A3DCoEdgeConnector::A3DCoEdgeConnector(const A3DTopoCoEdge *pCoEdge) : A3DConnec
 
 A3DCoEdgeConnector::~A3DCoEdgeConnector()
 {
-	A3DTopoCoEdgeGet(NULL, &m_sCoEdgeData);
+	A3DTopoCoEdgeGet(A3D_NULL_HANDLE, &m_sCoEdgeData);
 }
 
 A3DStatus A3DCoEdgeConnector::Traverse(A3DVisitorContainer*  psVisitor) const
@@ -224,7 +224,7 @@ A3DEdgeConnector::A3DEdgeConnector(const A3DTopoEdge *pEdge)
 
 A3DEdgeConnector::~A3DEdgeConnector()
 {
-	A3DTopoEdgeGet(NULL, &m_sEdgeData);
+	A3DTopoEdgeGet(A3D_NULL_HANDLE, &m_sEdgeData);
 }
 
 A3DStatus A3DEdgeConnector::Traverse(A3DVisitorContainer*  psVisitor) const
@@ -234,7 +234,7 @@ A3DStatus A3DEdgeConnector::Traverse(A3DVisitorContainer*  psVisitor) const
 	
 	A3DEEntityType eType;
 	//Start Vertex
-	if(m_sEdgeData.m_pStartVertex != NULL)
+	if(m_sEdgeData.m_pStartVertex != A3D_NULL_HANDLE)
 	{
 		CHECK_RET(A3DEntityGetType(m_sEdgeData.m_pStartVertex,&eType));
 		if(eType ==	kA3DTypeTopoMultipleVertex)
@@ -250,7 +250,7 @@ A3DStatus A3DEdgeConnector::Traverse(A3DVisitorContainer*  psVisitor) const
 	}
 
 	//End Vertex
-	if(m_sEdgeData.m_pEndVertex != NULL)
+	if(m_sEdgeData.m_pEndVertex != A3D_NULL_HANDLE)
 	{
 		CHECK_RET(A3DEntityGetType(m_sEdgeData.m_pEndVertex,&eType));
 		if(eType ==	kA3DTypeTopoMultipleVertex)
@@ -282,7 +282,7 @@ A3DUniqueVertexConnector::A3DUniqueVertexConnector(const A3DTopoVertex *pVertex)
 
 A3DUniqueVertexConnector::~A3DUniqueVertexConnector()
 {
-	A3DTopoUniqueVertexGet(NULL, &m_sVertexData);
+	A3DTopoUniqueVertexGet(A3D_NULL_HANDLE, &m_sVertexData);
 }
 
 A3DStatus A3DUniqueVertexConnector::Traverse(A3DVisitorContainer*  psVisitor) const
@@ -301,7 +301,7 @@ A3DMultipleVertexConnector::A3DMultipleVertexConnector(const A3DTopoVertex *pVer
 
 A3DMultipleVertexConnector::~A3DMultipleVertexConnector()
 {
-	A3DTopoMultipleVertexGet(NULL, &m_sVertexData);
+	A3DTopoMultipleVertexGet(A3D_NULL_HANDLE, &m_sVertexData);
 }
 
 A3DStatus A3DMultipleVertexConnector::Traverse(A3DVisitorContainer*  psVisitor) const

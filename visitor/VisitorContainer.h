@@ -1,6 +1,6 @@
 /***********************************************************************************************************************
 *
-* Copyright (c) 2010 - 2023 by Tech Soft 3D, Inc.
+* Copyright (c) 2010 - 2026 by Tech Soft 3D, Inc.
 * The information contained herein is confidential and proprietary to Tech Soft 3D, Inc., and considered a trade secret
 * as defined under civil and criminal statutes. Tech Soft 3D shall pursue its civil and criminal remedies in the event
 * of unauthorized use or misappropriation of its trade secrets. Use of this information by anyone other than authorized 
@@ -197,11 +197,11 @@ public:
 	virtual A3DStatus visitEnter(const A3DFRMParameterConnector& sConnector);
 	virtual A3DStatus visitLeave(const A3DFRMParameterConnector& sConnector);
 
-	virtual A3DStatus visitEnter(const A3DFRMFeatureTreeConnector& sConnector);
-	virtual A3DStatus visitLeave(const A3DFRMFeatureTreeConnector& sConnector);
+	virtual A3DStatus visitEnter(const A3DFRMTreeConnector& sConnector);
+	virtual A3DStatus visitLeave(const A3DFRMTreeConnector& sConnector);
 
-	virtual A3DStatus visitEnter(const A3DFRMFeatureLinkedItemConnector& sConnector);
-	virtual A3DStatus visitLeave(const A3DFRMFeatureLinkedItemConnector& sConnector);
+	virtual A3DStatus visitEnter(const A3DFRMLinkedItemConnector& sConnector);
+	virtual A3DStatus visitLeave(const A3DFRMLinkedItemConnector& sConnector);
 #endif
 	void* FindInMap(const A3DEntity* pA3DEntity);
 	void SetInMap(const A3DEntity* pA3DEntity, void* pYourEntity);
@@ -224,7 +224,7 @@ public:
 
 	void SetTraverseActivatedViewOnly(bool bTraverseActivatedViewOnly) { m_bTraverseActivatedViewOnly = bTraverseActivatedViewOnly; }
 
-	// StepEntityReference and ViewLinkedItem treatment
+	// StepEntityReference and ViewLinkedItem processing
 	A3DStepEntityRefManager const* GetActiveStepEntityRefManager(A3DEntity const * pEntity) const;
 	A3DViewLinkedItemManager const* GetActiveViewLinkedItemManager(A3DEntity const * pEntity) const;
 	

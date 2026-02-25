@@ -1,6 +1,6 @@
 /***********************************************************************************************************************
 *
-* Copyright (c) 2010 - 2023 by Tech Soft 3D, Inc.
+* Copyright (c) 2010 - 2026 by Tech Soft 3D, Inc.
 * The information contained herein is confidential and proprietary to Tech Soft 3D, Inc., and considered a trade secret
 * as defined under civil and criminal statutes. Tech Soft 3D shall pursue its civil and criminal remedies in the event
 * of unauthorized use or misappropriation of its trade secrets. Use of this information by anyone other than authorized 
@@ -456,20 +456,20 @@ static void MatrixVectMultiply(const double* pdMatrix,
  ********************************************************/
 A3DStatus Calculate(double* pdX, double* pdY, double* pdZ, double* pdMat)
 {
-	double dLenght = sqrt(pdX[0] * pdX[0] + pdX[1] * pdX[1] + pdX[2] * pdX[2]);
-	if(dLenght < 1e-12)
+	double dLength = sqrt(pdX[0] * pdX[0] + pdX[1] * pdX[1] + pdX[2] * pdX[2]);
+	if(dLength < 1e-12)
 		return A3D_ERROR;
-	pdX[0] /= dLenght;  pdX[1] /= dLenght; pdX[2] /= dLenght;
+	pdX[0] /= dLength;  pdX[1] /= dLength; pdX[2] /= dLength;
 
-	dLenght = sqrt(pdY[0] * pdY[0] + pdY[1] * pdY[1] + pdY[2] * pdY[2]);
-	if(dLenght < 1e-12)
+	dLength = sqrt(pdY[0] * pdY[0] + pdY[1] * pdY[1] + pdY[2] * pdY[2]);
+	if(dLength < 1e-12)
 		return A3D_ERROR;
-	pdY[0] /= dLenght;  pdY[1] /= dLenght; pdY[2] /= dLenght;
+	pdY[0] /= dLength;  pdY[1] /= dLength; pdY[2] /= dLength;
 
-	dLenght = sqrt(pdZ[0] * pdZ[0] + pdZ[1] * pdZ[1] + pdZ[2] * pdZ[2]);
-	if(dLenght < 1e-12)
+	dLength = sqrt(pdZ[0] * pdZ[0] + pdZ[1] * pdZ[1] + pdZ[2] * pdZ[2]);
+	if(dLength < 1e-12)
 		return A3D_ERROR;
-	pdZ[0] /= dLenght;  pdZ[1] /= dLenght; pdZ[2] /= dLenght;
+	pdZ[0] /= dLength;  pdZ[1] /= dLength; pdZ[2] /= dLength;
 	
 	pdMat[0] = pdX[0];
 	pdMat[1] = pdX[1];

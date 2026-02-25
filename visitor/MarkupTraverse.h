@@ -1,6 +1,6 @@
 /***********************************************************************************************************************
 *
-* Copyright (c) 2010 - 2023 by Tech Soft 3D, Inc.
+* Copyright (c) 2010 - 2026 by Tech Soft 3D, Inc.
 * The information contained herein is confidential and proprietary to Tech Soft 3D, Inc., and considered a trade secret
 * as defined under civil and criminal statutes. Tech Soft 3D shall pursue its civil and criminal remedies in the event
 * of unauthorized use or misappropriation of its trade secrets. Use of this information by anyone other than authorized 
@@ -45,7 +45,7 @@ public:
 
 	~A3DMkpAnnotationSetConnector()
 	{
-		A3DMkpAnnotationSetGet(NULL, &m_sAnnotSetData);
+		A3DMkpAnnotationSetGet(A3D_NULL_HANDLE, &m_sAnnotSetData);
 	}
 
 	A3DStatus TraverseAnnotationSet(A3DVisitorContainer*  pVisitor);
@@ -66,7 +66,7 @@ public:
 
 	~A3DMkpAnnotationReferenceConnector()
 	{
-		A3DMkpAnnotationReferenceGet(NULL, &m_sAnnotReferenceData);
+		A3DMkpAnnotationReferenceGet(A3D_NULL_HANDLE, &m_sAnnotReferenceData);
 	}
 
 	A3DStatus TraverseAnnotationReference(A3DVisitorContainer*  pVisitor);
@@ -88,7 +88,7 @@ public:
 
 	~A3DMkpAnnotationItemConnector()
 	{
-		A3DMkpAnnotationItemGet(NULL, &m_sAnnotItemData);
+		A3DMkpAnnotationItemGet(A3D_NULL_HANDLE, &m_sAnnotItemData);
 	}
 
 	A3DStatus TraverseAnnotationItem(A3DVisitorContainer* pVisitor);
@@ -112,7 +112,7 @@ public:
 
 	~A3DMarkupConnector()
 	{
-		A3DMkpMarkupGet(NULL, &m_sMarkupData);
+		A3DMkpMarkupGet(A3D_NULL_HANDLE, &m_sMarkupData);
 	}
 
 	A3DStatus TraverseMarkup(A3DVisitorContainer* pVisitor);
@@ -139,7 +139,7 @@ public:
 
 	~A3DMarkupDimensionConnector()
 	{
-		A3DMarkupDimensionGet(NULL, &m_sDimensionData);
+		A3DMarkupDimensionGet(A3D_NULL_HANDLE, &m_sDimensionData);
 	}
 
 	A3DStatus TraverseDimension(A3DVisitorContainer* pVisitor);
@@ -162,7 +162,7 @@ public:
 
 	~A3DMarkupDatumConnector()
 	{
-		A3DMarkupDatumGet(NULL, &m_sDatumData);
+		A3DMarkupDatumGet(A3D_NULL_HANDLE, &m_sDatumData);
 	}
 
 	A3DStatus TraverseDatum(A3DVisitorContainer* pVisitor);
@@ -185,7 +185,7 @@ public:
 
 	~A3DMarkupGDTConnector()
 	{
-		A3DMarkupGDTGet(NULL, &m_sGDTData);
+		A3DMarkupGDTGet(A3D_NULL_HANDLE, &m_sGDTData);
 	}
 
 	A3DStatus TraverseGDT(A3DVisitorContainer* pVisitor);
